@@ -1,16 +1,17 @@
 {
     "compilerOptions": {
         "target": "ES5",//编译为es5
-        "module": "ES2015",
+        "module": "ESNext",
         "strict": true,
         "esModuleInterop": true,//允许使用es6 导入导出
         "skipLibCheck": true,//跳过lib检查
         "forceConsistentCasingInFileNames": false,//是否强制检查文件名称
         "jsx": "react",//types 使用jsx
         "moduleResolution": "node",
-        "baseUrl": "./",
+        "baseUrl": "./",//ts 基础路径
+        "rootDir": "./src",
         "paths": {
-            "@/*":["src/*"]
+            "@/*":["src/*"],// 配置路径别名让ts支持 和webpack里同步
         }
     },
     "include": ["src/**/*"],

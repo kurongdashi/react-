@@ -1,7 +1,8 @@
 # 1、项目搭建顺序
+[参考搭建]（https://blog.csdn.net/qq_41581588/article/details/129177415）
 - 安装yarn `npm i yarn -g`
 ## 安装基础依赖 
-- 安装打包工具 `yarn add webpack webpack-cli webpack-dev-server cross-env`
+- 安装打包工具 `yarn add webpack webpack-cli webpack-dev-server webpack-merge cross-env`
 webpac 包含基础API
 webpack-cli 可以提供命令行 再package.json 中使用 webpack --config 等命令
 webpack-dev-server 可以启动一个热更新本地服务
@@ -28,12 +29,17 @@ react-router-dom 支持路由
 typescript 提供语法支持
 ts-loader 处理.ts、.tsx 文件
 tsconfig.json ts配置项
+[tsconfig配置]（https://jkchao.github.io/typescript-book-chinese/project/compilationContext.html#基础）
 
 
-- 安装JS处理 所需依赖 `yarn add @babel/core @babel/preset-env @babel/preset-typescript @babel/preset-react`
+- 安装JS处理 所需依赖 `yarn add @babel/core @babel/preset-env @babel/preset-typescript @babel/preset-react @babel/plugin-transform-runtime`
+babel-loader 识别
 @babel/preset-react react转js
 @babel/preset-typescript ts转js
-@babel/preset-env 搭配babel 使用 
+@babel/preset-env 搭配babel 使用 转化普通语法
+@babel/plugin-transform-runtime 将es6 高级语法转化
 .babelrc 文件配置项
 
-
+- 文档参考
+[react-route-dom](https://reactrouter.com/en/dev/upgrading/v5)
+[webpack](https://webpack.docschina.org/configuration/devtool/#root)
