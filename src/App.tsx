@@ -1,7 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import Entry from './Entry'
 
 
 // 做 provider 层
-ReactDOM.render(<Entry/>,document.getElementById('root'));
+const root=createRoot(document.getElementById('root'))
+root.render(<Entry/>);

@@ -2,9 +2,11 @@ import React, { useEffect } from 'react';
 import { BrowserRouter,HashRouter, Route, Switch } from 'react-router-dom'
 import routerConfig from './router/index'
 import NotFound from './views/NotFound'
+import Layout from '@/views/Layout'
 // 处理路由 层
 const Index: React.FC<any> = (props) => {
     return (
+        <Layout>
         <BrowserRouter>
             <Switch>
                 <Route exact path="/hhh" component={NotFound}></Route>
@@ -17,6 +19,7 @@ const Index: React.FC<any> = (props) => {
                 <Route component={NotFound}></Route>
             </Switch>
         </BrowserRouter>
+        </Layout> 
     )
 
 }

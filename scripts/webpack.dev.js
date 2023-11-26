@@ -15,8 +15,10 @@ const devConfig = {
     devServer: {
         hot: true,
         port: PORT,
-        // open: true,
+        open: true,
         compress: true,
+        // inline:true,
+        historyApiFallback:true,// 使用h5 history API 功能 browseHistory路由 必须
         proxy: {
             "/api": {
                 target: 'https://www.baidu.com',

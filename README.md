@@ -40,6 +40,24 @@ babel-loader 识别
 @babel/plugin-transform-runtime 将es6 高级语法转化
 .babelrc 文件配置项
 
+- 安装eslint 实现代码校验及自动格式化代码 `yarn add --dev eslint eslint-plugin-react eslint-plugin-react-hooks eslint-config-prettier prettier`
+eslint-config-prettier prettier 格式化
+eslint eslint-plugin-react eslint-plugin-react-hooks 校验
+.eslintrc.js 配置
+.repttierrc 配置 
+```
+ {  
+  "semi": true, // 使用分号而不是空格作为语句分隔符（推荐）  
+  "trailingComma": "all", // 在多行输入的尾逗号处添加逗号（推荐）  
+  "singleQuote": true, // 使用单引号而不是双引号（推荐）  
+  "printWidth": 80, // 指定一行最多可打印的字符数（推荐）  
+  "tabWidth": 2, // 指定每个缩进级别的空格数（推荐）  
+  "useTabs": false, // 不使用制表符进行缩进（推荐）  
+  "jsxBracketSameLine": true, // 将JSX标签放在同一行（推荐）  
+}
+```
 - 文档参考
 [react-route-dom](https://reactrouter.com/en/dev/upgrading/v5)
 [webpack](https://webpack.docschina.org/configuration/devtool/#root)
+
+
