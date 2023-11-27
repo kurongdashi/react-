@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, HashRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import routerConfig from './router/index'
 import NotFound from './views/NotFound'
 import Layout from '@/views/Layout'
@@ -7,8 +7,9 @@ import Home from '@/views/Home'
 // 处理路由 层
 const Index: React.FC<any> = (props) => {
     return (
-        <Layout>
-            <BrowserRouter>
+        <BrowserRouter>
+            {/* 把layout嵌入 Router 中可以即可在layout使用Link  */}
+            <Layout>
                 <Switch>
                     <Route exact path="/" component={Home}></Route>
                     {
@@ -19,8 +20,8 @@ const Index: React.FC<any> = (props) => {
                     }
                     <Route component={NotFound}></Route>
                 </Switch>
-            </BrowserRouter>
-        </Layout>
+            </Layout>
+        </BrowserRouter>
     )
 
 }

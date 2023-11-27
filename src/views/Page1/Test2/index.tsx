@@ -1,12 +1,42 @@
 import React, { useEffect, useState } from 'react';
-
-const Index:React.FC = ()=>{
-    const [page,setPage]=useState('');
-
-    useEffect(()=>{
+import { addAge, subAge, update } from '@/store/disptch'
+import { connect } from 'react-redux'
+import styles from './index.less'
+const Index: React.FC = (props: any) => {
+    const [page, setPage] = useState('');
+    console.log('age=', props?.age)
+    useEffect(() => {
         setPage('world')
-    },[])
-    return <div>测试页面2--{page}</div>
-            
+    }, [])
+    const ageR = Math.random() * 100;
+
+    return <div>
+        <div>
+            用户信息：
+            <div>姓名：{props.name}</div>
+            <div>年龄：{props.age}</div>
+            <div>账号：{props.account}</div>
+        </div>
+        <div className={styles['btns']}>
+            <button onClick={() => props.updateInfo({ name: '李四', age: 20, account: 'abcd@qq.com' })}>修改用户信息</button>
+        </div>
+        <div>
+        </div>
+    </div>
+
 }
-export default Index;
+const mapStateToProps = (state: any) => ({ ...state })
+const mapDispatchToProps = (disptch: any) => {
+    return {
+        addAge(num: any) {
+            return disptch(addAge(num))
+        },
+        subAge(num: any) {
+            return disptch(subAge(num))
+        },
+        updateInfo(info: any) {
+            return disptch(update(info))
+        },
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Index);
