@@ -10,7 +10,7 @@ interface Props{
  */
 const Index:React.FC<Props> = (props)=>{
     const [page,setPage]=useState('');
-
+    console.log("styles=",styles)
     useEffect(()=>{
         setPage('hello')
     },[])

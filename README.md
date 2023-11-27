@@ -56,6 +56,33 @@ eslint eslint-plugin-react eslint-plugin-react-hooks 校验
   "jsxBracketSameLine": true, // 将JSX标签放在同一行（推荐）  
 }
 ```
+同时在vscode 中勾选 format on save
+
+
+- 安装 `yarn add portfinder --dev` 本地启动时如果端口被占用，则返回一个新端口
+```
+portfinder.basePort = PORT;
+const port = await portfinder.getPortPromise();
+devConfig.devServer.port = port;
+```
+- 使用BrowserRouter时本地需要配置
+```
+output: {
+        path: path.resolve(__dirname, '../dist'),
+        filename: "js/[name][hash:6].js",
+        // 本地BrowserRouter 配置将请求路径转发的 index.html
+        publicPath: '/',
+    },
+ devServer: {
+        // 启用history API 路由不存在时返回 index.html
+        historyApiFallback: true,
+     }
+
+```
+[参考配置1](https://blog.csdn.net/wuyujin1997/article/details/111937956)
+[参考配置1](https://blog.csdn.net/wuyujin1997/article/details/111937956)
+
+
 - 文档参考
 [react-route-dom](https://reactrouter.com/en/dev/upgrading/v5)
 [webpack](https://webpack.docschina.org/configuration/devtool/#root)

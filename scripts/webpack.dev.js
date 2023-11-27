@@ -1,6 +1,6 @@
 
 const path = require('path');
-const {merge} = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const portfinder = require('portfinder')
 const baseConfig = require('./webpack.base');
 const { PORT } = require('./utils/constant');
@@ -17,8 +17,8 @@ const devConfig = {
         port: PORT,
         open: true,
         compress: true,
-        // inline:true,
-        historyApiFallback:true,// 使用h5 history API 功能 browseHistory路由 必须
+        // 本地BrowserRouter 配置将请求路径转发的 index.html
+        historyApiFallback: true,
         proxy: {
             "/api": {
                 target: 'https://www.baidu.com',
