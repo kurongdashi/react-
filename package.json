@@ -18,8 +18,12 @@
   },
   "homepage": "https://github.com/kurongdashi/react-#readme",
   "dependencies": {
+    "@types/mockjs": "^1.0.10",
+    "axios": "^1.6.2",
     "less": "^4.2.0",
     "mini-css-extract-plugin": "^2.7.6",
+    "mockjs": "^1.1.0",
+    "qs": "^6.11.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.3",

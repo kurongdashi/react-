@@ -122,6 +122,48 @@ root.render(<Provider store={store}>
     <Entry />
 </Provider>);
 ```
+
+- 使用中间件，可在dispatch 之前做一些操作,`yarn add redux-thunk `
+```
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+// 使用applyMiddleware 中间件，可以支持action 返回一个方法
+const store = createStore(reducer, applyMiddleware(thunk));
+
+
+// 允许action 返回一个函数，在函数内可进行异步操作
+export const asyncUpdate = () => {
+    return (dispatch: any, getState: any) => {
+        const state = getState();
+        // 获取state
+        console.log('state=', state)
+        request({
+            url: '/api/login',
+            method: 'POST',
+        }).then((res) => {
+            if ((res as any).code == 200) {
+                dispatch(update(res.data))
+            }
+        })
+    }
+}
+```
+- 使用mockjs `yarn add mockjs @types/mockjs --dev`
+```
+// src/mock/index.ts 在入口处引用此
+import Mock from 'mockjs';
+// 引入此文件即开启mock 拦截请求
+Mock.mock('/api/getformData', {
+    "list|1-10": [
+        {
+            "string|1-19": 'aa',
+            "number|1-100": 30,
+
+        }
+    ]
+})
+
+```
+  
 [redux使用](https://blog.csdn.net/m0_68324632/article/details/128819264)
 
 

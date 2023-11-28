@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { addAge, subAge, update } from '@/store/disptch'
+import { addAge, subAge, update, asyncUpdate } from '@/store/disptch'
 import { connect } from 'react-redux'
 import styles from './index.less'
 const Index: React.FC = (props: any) => {
@@ -18,7 +18,8 @@ const Index: React.FC = (props: any) => {
             <div>账号：{props.account}</div>
         </div>
         <div className={styles['btns']}>
-            <button onClick={() => props.updateInfo({ name: '李四', age: 20, account: 'abcd@qq.com' })}>修改用户信息</button>
+            <button onClick={() => props.updateInfo({ name: '李四', age: 20, account: 'abcd@qq.com' })}>同步修改用户信息</button>
+            <button onClick={() => props.asyncUpdate()}>登录获取用户信息</button>
         </div>
         <div>
         </div>
@@ -36,6 +37,9 @@ const mapDispatchToProps = (disptch: any) => {
         },
         updateInfo(info: any) {
             return disptch(update(info))
+        },
+        asyncUpdate() {
+            return disptch(asyncUpdate())
         },
     }
 }
