@@ -129,7 +129,6 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 // 使用applyMiddleware 中间件，可以支持action 返回一个方法
 const store = createStore(reducer, applyMiddleware(thunk));
 
-
 // 允许action 返回一个函数，在函数内可进行异步操作
 export const asyncUpdate = () => {
     return (dispatch: any, getState: any) => {
@@ -147,6 +146,8 @@ export const asyncUpdate = () => {
     }
 }
 ```
+[redux使用](https://blog.csdn.net/m0_68324632/article/details/128819264)
+
 - 使用mockjs `yarn add mockjs @types/mockjs --dev`
 ```
 // src/mock/index.ts 在入口处引用此
@@ -163,8 +164,7 @@ Mock.mock('/api/getformData', {
 })
 
 ```
-  
-[redux使用](https://blog.csdn.net/m0_68324632/article/details/128819264)
+[mockjs使用](https://blog.csdn.net/TKY666/article/details/126215513)
 
 
 
