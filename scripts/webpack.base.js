@@ -12,8 +12,9 @@ module.exports = {
         // 本地BrowserRouter 配置将请求路径转发的 index.html
         publicPath: '/',
     },
-    // 别名配置
+    // 配置如何解析
     resolve: {
+        // 别名配置
         alias: {
             // 方便导入
             '@': path.resolve(__dirname, '../src/'),

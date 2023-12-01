@@ -16,7 +16,7 @@ const devConfig = {
         hot: true,
         port: PORT,
         open: true,
-        compress: true,
+        compress: true,//压缩代码
         // 本地BrowserRouter 配置将请求路径转发的 index.html
         historyApiFallback: true,
         proxy: {

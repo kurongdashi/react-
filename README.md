@@ -204,5 +204,6 @@ Mock.mock('/api/getformData', {
 ### 文档参考
 [react-route-dom](https://reactrouter.com/en/dev/upgrading/v5)
 [webpack](https://webpack.docschina.org/configuration/devtool/#root)
-[typescript]（https://jkchao.github.io/typescript-book-chinese/project/compilationContext.html#基础）
+[ts入门](http://ts.xcatliu.com/)
+[typescript](https://jkchao.github.io/typescript-book-chinese/project/compilationContext.html#基础)
 
