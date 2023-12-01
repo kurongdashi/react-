@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/kurongdashi/react-#readme",
   "dependencies": {
+    "@ant-design/icons": "^5.2.6",
     "@types/mockjs": "^1.0.10",
+    "antd": "^5.11.5",
     "axios": "^1.6.2",
     "less": "^4.2.0",
     "mini-css-extract-plugin": "^2.7.6",

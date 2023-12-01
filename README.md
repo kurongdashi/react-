@@ -52,22 +52,48 @@ babel-loader 识别
 }
 ```
 
-- 安装eslint 实现代码校验及自动格式化代码 `yarn add --dev ; eslint eslint-plugin-react eslint-plugin-react-hooks eslint-config-prettier prettier`
+- 安装eslint 实现代码校验及自动格式化代码 `yarn add --dev eslint eslint-plugin-react eslint-plugin-react-hooks eslint-config-prettier prettier`
 eslint-config-prettier prettier 格式化
 eslint eslint-plugin-react eslint-plugin-react-hooks 校验
+[eslint配置](http://eslint.cn/docs/rules/)
+
 ```
-//.eslintrc.js 配置
-// .repttierrc.js 配置 
- {  
-  "semi": true, // 使用分号而不是空格作为语句分隔符（推荐）  
-  "trailingComma": "all", // 在多行输入的尾逗号处添加逗号（推荐）  
-  "singleQuote": true, // 使用单引号而不是双引号（推荐）  
-  "printWidth": 80, // 指定一行最多可打印的字符数（推荐）  
-  "tabWidth": 2, // 指定每个缩进级别的空格数（推荐）  
-  "useTabs": false, // 不使用制表符进行缩进（推荐）  
-  "jsxBracketSameLine": true, // 将JSX标签放在同一行（推荐）  
+vscode 配置 安裝prettier 插件
+settings =>format on save => 勾选上
+settings => editor default format => 选择 prettier
+查看setting.json 配置如下
+"editor.formatOnSave": true,
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
+项目下.repttierrc 优先级最高 
+// .repttierrc.js（json） 配置 
+{
+  "printWidth": 100,	//每行最多显示的字符数
+  "tabWidth": 2,//tab的宽度 2个字符
+  "useTabs": false,//禁止使用tab代替空格
+  "semi": true,//结尾使用分号
+  "singleQuote": true,//使用单引号代替双引号
+  "trailingComma": "none",//结尾是否添加逗号
+  "bracketSpacing": true,//对象括号俩边是否用空格隔开
+  "bracketSameLine": true,;//组件最后的尖括号不另起一行
+  "arrowParens": "always",//箭头函数参数始终添加括号
+  "htmlWhitespaceSensitivity": "ignore",//html存在空格是不敏感的
+  "vueIndentScriptAndStyle": false,//vue 的script和style的内容是否缩进
+  "endOfLine": "auto",//行结尾形式 mac和linux是\n  windows是\r\n 
+  "singleAttributePerLine": false //组件或者标签的属性是否控制一行只显示一个属性
+  "jsxBracketSameLine": true, // 将JSX标签放在同一行（推荐）  
+
+}
+
 ```
+[prettier如何配置](https://blog.csdn.net/qq_41887214/article/details/132391992)
 - 同时在vscode 中勾选 format on save
 
 
@@ -147,6 +173,7 @@ export const asyncUpdate = () => {
 }
 ```
 [redux使用](https://blog.csdn.net/m0_68324632/article/details/128819264)
+[redux中间件的理解](https://zhuanlan.zhihu.com/p/200775480)
 
 - 使用mockjs `yarn add mockjs @types/mockjs --dev`
 ```
@@ -168,7 +195,10 @@ Mock.mock('/api/getformData', {
 
 
 
-
+### 微前端实现方案 在主应用中，通过使用微前端框架（如single-spa、qiankun等）来加载和管理子应用。
+[微前端实现方案参考](https://www.jianshu.com/p/0ac8e1a666cf)
+[single-spa](https://zh-hans.single-spa.js.org/docs/getting-started-overview/)
+[qiankun](https://qiankun.umijs.org/zh/guide)
 
 
 ### 文档参考

@@ -1,5 +1,7 @@
-import Test1 from './Test1';
-import Test2 from './Test2';
+import React from 'react'
+// 使用懒加载优化
+const Test1 = React.lazy(() => import('./Test1'));
+const Test2 = React.lazy(() => import('./Test2'));
 const Index = [
     {
         title: '测试页面1-1',

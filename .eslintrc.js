@@ -5,7 +5,7 @@ module.exports = {
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
     'plugin:prettier/recommended',
-    "prettier"
+    "prettier",// 把prettier中设置的规则添加进来，让它覆盖上面设置的规则。这样就不会和上面的规则冲突了
   ],
   "plugins": [
     "react",
