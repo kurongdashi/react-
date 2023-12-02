@@ -12,6 +12,7 @@ import { ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 // antd中使用了dayjs处理日期，还需dayjs 本地化
 import dayjs from 'dayjs';
+import './start';
 import 'dayjs/locale/zh-cn';
 dayjs.locale('zh-cn');
 // 可合并reducer

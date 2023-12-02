@@ -35,7 +35,11 @@ const Index: React.FC<Props> = (props) => {
                     }
 
                 </div>
-                <div className={styles['right-box']}>{props.children}</div>
+                <div className={styles['right-box']}>
+                    {/* 在主应用中增加子应用容器id */}
+                    <div id="container"></div>
+                    {props.children}
+                    </div>
             </div>
         </div>
     )

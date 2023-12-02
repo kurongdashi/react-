@@ -19,7 +19,6 @@ const initialState = {
 
 
 const reducer = (state = initialState, action: Action) => {
-    debugger
     switch (action.type) {
         case ActionType.ADD:
             const age = state.age + action.data.age;

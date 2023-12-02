@@ -19,7 +19,7 @@ const Index: React.FC<any> = props => {
             {routerConfig.map(({ path, element }, idx) => {
               console.log('path=', path);
               return (
-                <Route exact key={idx} path={path} component={element}></Route>
+                <Route exact key={idx} path={path} component={element||undefined}></Route>
               );
             })}
             <Route component={NotFound}></Route>
