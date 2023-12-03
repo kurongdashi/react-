@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useContext } from 'react';
+import MyContext from '@/Context'
 import { addAge, subAge } from '@/store/disptch';
 import { connect } from 'react-redux';
 import styles from './index.less';
@@ -14,6 +15,8 @@ const Index: React.FC = (props: any) => {
   const onChange = val => {
     console.log('日期=', val?.format('YYYY-MM-DD HH:mm:ss'));
   };
+  const context=useContext(MyContext);
+  console.log('test1 context=',context)
   return (
     <div>
       测试页面1--{page} <DatePicker onChange={onChange} />
@@ -24,6 +27,7 @@ const Index: React.FC = (props: any) => {
         </button>
         <button onClick={() => props.subAge(1)}>年龄-1</button>
       </div>
+      <div>context内容：</div>
       <FloatButton
         onClick={() => console.log('点击悬浮按钮')}
         shape="circle"
