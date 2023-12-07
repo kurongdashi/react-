@@ -1,5 +1,5 @@
 module.exports = {
-  printWidth: 80, // 单行长度,超过则自动换行
+  printWidth: 500, // 单行长度,超过则自动换行
   tabWidth: 2, // 缩进长度
   useTabs: false, // 使用空格代替tab缩进
   semi: true, // 句末使用分号
@@ -13,4 +13,4 @@ module.exports = {
   requirePragma: false, // 无需顶部注释即可格式化
   trailingComma: 'none', // 多行时尽可能打印尾随逗号
   useTabs: false // 使用空格代替tab缩进
-}
+};

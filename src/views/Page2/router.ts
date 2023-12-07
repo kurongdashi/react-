@@ -1,16 +1,23 @@
-import Test1 from './Test1';
-import Test2 from './Test2';
-const Index = [
-    {
-        title: '测试页面2-1',
-        path: '/page2/test1',
-        element: Test1,
-    },
-    {
-        title: '测试页面2-2',
-        path: '/page2/test2',
-        element: Test2,
-    },
+import React from 'react';
+const Test1 = React.lazy(() => import('./Test1'));
+const Test2 = React.lazy(() => import('./Test2'));
+const Test3 = React.lazy(() => import('./Test3'));
 
-]
+const Index = [
+  {
+    title: 'js的loop轮询机制',
+    path: '/page2/test1',
+    element: Test1
+  },
+  {
+    title: 'crypto-js的加解密',
+    path: '/page2/test2',
+    element: Test2
+  },
+  {
+    title: '深入了解react ',
+    path: '/page2/test3',
+    element: Test3
+  }
+];
 export default Index;
