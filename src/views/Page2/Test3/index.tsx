@@ -7,24 +7,17 @@ class Index extends React.Component {
     isUpdate: false,
     count: 0
   };
+
   componentDidMount(): void {
     console.log('mount--');
   }
   componentWillUnmount(): void {
     console.log('unmount--');
   }
-  componentDidUpdate(
-    prevProps: Readonly<{}>,
-    prevState: Readonly<{}>,
-    snapshot?: any
-  ): void {
+  componentDidUpdate(prevProps: Readonly<{}>, prevState: Readonly<{}>, snapshot?: any): void {
     console.log('DidUpdate--');
   }
-  shouldComponentUpdate(
-    nextProps: Readonly<{}>,
-    nextState: Readonly<{}>,
-    nextContext: any
-  ): boolean {
+  shouldComponentUpdate(nextProps: Readonly<{}>, nextState: Readonly<{}>, nextContext: any): boolean {
     console.log('组件入参nextProps=', nextProps);
     console.log('组件当前nextState=', nextState);
     console.log('nextContext=', nextContext);
@@ -53,19 +46,11 @@ class Index extends React.Component {
         </Paragraph>
         <Divider></Divider>
         <Title level={2}>虚拟dom</Title>
-        <Paragraph>
-          react 将所有实际dom都转成虚拟dom(js
-          内存对象)，当页面操作后进行diff算法，然后合并更新
-        </Paragraph>
+        <Paragraph>react 将所有实际dom都转成虚拟dom(js 内存对象)，当页面操作后进行diff算法，然后合并更新</Paragraph>
         <Title level={2}>diff算法</Title>
-        <Paragraph>1、跨层节点操作 2、同层节点操作增加key标记</Paragraph>
+        <Paragraph>1、同层比较,如果一层节点不一样或不存在，则直接替换这个dom所在层及下子节点，相同则比较下一层（执行删除、创建、没有移动操作） 2、同层list节点增加key标记，进行对比所以key应该是唯一id，进行移动、删除、插入操作 </Paragraph>
         <Title level={2}>性能优化</Title>
-        <Paragraph>
-          1、react最消耗性能的是diff算法，所以需要减少，其中setState会触发算法，需要合并setState
-          2、父组件的render会触发子组件的重新渲染，所以要在子组件中shouldComponentUpdate
-          3、尽量使用隐藏节点，而不是删除节点的操作 4、避免使用forceUpdate
-          因为会强制更新
-        </Paragraph>
+        <Paragraph>1、react最消耗性能的是diff算法，所以需要减少，其中setState会触发算法，需要合并setState 2、父组件的render会触发子组件的重新渲染，所以要在子组件中shouldComponentUpdate 3、尽量使用隐藏节点，而不是删除节点的操作 4、避免使用forceUpdate 因为会强制更新</Paragraph>
       </div>
     );
   }
