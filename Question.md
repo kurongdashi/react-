@@ -40,23 +40,11 @@ BOM（Browser Object Model）也提供了一些对象，它们代表了浏览器
 总的来说，DOM和BOM都是JavaScript中非常重要的概念，它们使得JavaScript可以与网页内容和浏览器进行交互，从而实现网页的动态效果和交互功能。
 ```
 
-解释一下什么是事件冒泡，什么是事件捕获，并举例说明其中的使用场景。
-解释一下JavaScript中的闭包，什么是原型链，以及原型链的查找和设置规则。
-能否解释一下JavaScript中的this指针，以及它如何指向当前对象。
-能否解释一下JavaScript中的异步编程，以及如何使用回调函数、Promise对象和async/await实现异步操作。
-能否解释一下JavaScript中的垃圾回收机制，以及如何优化代码以减少内存占用。
-解释一下JavaScript中的事件委托和数据劫持，并举例说明它们的实现和应用场景。
-能否解释一下JavaScript中的模块化编程，以及如何使用CommonJS、AMD和ES6模块进行模块化开发。
-能否解释一下JavaScript中的原型链继承和组合继承的区别，以及它们的应用场景。
-解释一下JavaScript中的闭包和闭包环境，以及闭包如何实现私有变量和函数。
-能否解释一下JavaScript中的事件模型，以及事件处理程序的作用和调用方式。
-能否解释一下JavaScript中的事件委托和事件代理的区别，以及它们的应用场景。
-解释一下JavaScript中的事件循环机制，以及事件循环如何处理异步操作。
-能否解释一下JavaScript中的回调地狱，以及如何避免回调地狱的出现。
-能否解释一下JavaScript中的Promise对象和async/await语法，以及它们的应用场景。
-能否解释一下JavaScript中的性能优化方法，例如避免全局查找、减少DOM操作、使用缓存等。
-以上问题只是一些可能的高级Web前端面试题，面试官可能会根据面试者的经验和知识水平进行相应的调整和扩展。
-
+```
+标准盒子模型：宽度不包括 padding,border
+IE盒子模型：宽度包含padding，border
+```
+[webpack 的 tree-shaking](https://www.zhihu.com/question/568855947/answer/3274565524)
 [前端面试题2](https://zhuanlan.zhihu.com/p/609698817)
 [前端面试题3](https://zhuanlan.zhihu.com/p/563612885)
 [http code](https://zhuanlan.zhihu.com/p/416646367)
