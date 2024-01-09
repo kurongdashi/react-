@@ -1,4 +1,5 @@
 ## 高级Web前端面试题可以包括以下问题：(来自AI提问)
+
 ```
 浏览器中的线程
 GUI 线程复责渲染 和JS引擎线程互斥
@@ -15,8 +16,9 @@ ddos: 发送无效请攻击服务器，使之不能响应，应该设置防火�
 sql注入：输入框输入恶意SQL攻击数据库，用户登录过滤，预编译等
 
 ```
+
 ```
-常见http code 
+常见http code
 200:成功
 201：创建请求
 304：资源未修改
@@ -29,6 +31,7 @@ sql注入：输入框输入恶意SQL攻击数据库，用户登录过滤，预�
 503：服务不可用
 
 ```
+
 ```
 
 DOM（文档对象模型）和BOM（浏览器对象模型）是JavaScript中两个重要的概念。
@@ -44,8 +47,9 @@ BOM（Browser Object Model）也提供了一些对象，它们代表了浏览器
 标准盒子模型：宽度不包括 padding,border
 IE盒子模型：宽度包含padding，border
 ```
+
 [webpack 的 tree-shaking](https://www.zhihu.com/question/568855947/answer/3274565524)
 [前端面试题2](https://zhuanlan.zhihu.com/p/609698817)
 [前端面试题3](https://zhuanlan.zhihu.com/p/563612885)
 [http code](https://zhuanlan.zhihu.com/p/416646367)
-
+[yarn 命令](https://www.jianshu.com/p/53b517f58d75)
