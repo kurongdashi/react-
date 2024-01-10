@@ -1,29 +1,34 @@
 const path = require('path');
 // css 分离
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-// css 压缩
-const OptimizeCssPlugin = require('optimize-css-assets-webpack-plugin');
 // 生成出口文件
 const htmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
-// 清除dist
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-// webpack copy 相关文件
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-// 打包优化分析代码
-const WebpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const publicPath = process.env.NODE_ENV == 'development' ? '/' : '/dist/';
 
 module.exports = {
-    entry: '/src/App.tsx',
+    entry: {
+        index: '/src/App.tsx'
+        // app: '/src/App2.ts'
+        // 不推荐使用，当多个入口中有相同的lodash依赖时需要处理
+        // index: {
+        //     import: '/src/App.tsx',
+        //     dependOn: 'shared' //依赖变量
+        // },
+        // app2: {
+        //     import: '/src/App2.ts',
+        //     dependOn: 'shared'
+        // },
+        // shared: 'lodash' // 如果想要在一个 HTML 页面上使用多个入口起点，同时还需开启optimizationo.runtimeChunk=single 才能
+    },
     output: {
-        path: path.resolve(__dirname, '../dist'),
-        filename: 'js/[name][contenthash:6].js',
+        // path: path.resolve(__dirname, '../dist'),
+        filename: 'js/[name].[contenthash:6].js',
         // 入口对应chunk.js 名称
-        chunkFilename: 'js/[name][contenthash:6].chunk.js',
+        chunkFilename: 'js/[name].[contenthash:6].chunk.js',
         // 本地BrowserRouter 配置将请求路径转发的 index.html
         // 一般对应打包生成的目录就可以了
-        publicPath
+        publicPath,
+        clean: true //打包清理dist 目录
     },
     // 配置如何解析
     resolve: {
@@ -36,25 +41,15 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.js', '.less', '.json']
     },
     plugins: [
-        new CopyWebpackPlugin({
-            patterns: [{ from: path.resolve(__dirname, '../public/README.md'), to: path.resolve(__dirname, '../dist/README.md') }]
-        }),
-        // new WebpackBundleAnalyzer(),
-        new CleanWebpackPlugin(),
-        new webpack.DefinePlugin({
-            'process.env.PUBLIC_PATH': "'/public'"
-        }),
         new MiniCssExtractPlugin({
             filename: 'css/[name][contenthash:6].css'
         }),
-        // css 压缩
-        new OptimizeCssPlugin(),
         new htmlWebpackPlugin({
             title: '打包优化',
             filename: 'index.html',
             template: path.resolve(__dirname, '../public/index.html'),
             // 在根目录下放置 favicon.ico 就可以
-            favicon: 'favicon.ico'
+            favicon: path.resolve(__dirname, '../favicon.ico')
         })
     ],
 
@@ -100,12 +95,12 @@ module.exports = {
             },
             {
                 test: /\.(svg|png|gif|\.jpe?g)$/,
-                // use:'asset/inline',//以base64 方式导出
+                // type: 'asset/resource' //以base64 方式导出
                 use: [
                     {
                         loader: 'url-loader',
                         options: {
-                            name: '[name][hash:6].[ext]',
+                            name: 'assets/[name][hash:6].[ext]',
                             // 图片输出目录
                             outputPath: 'assets',
                             //   图片小于2M 打包成base64
@@ -116,7 +111,7 @@ module.exports = {
             },
             {
                 test: /\.(eot|ttf|woff|woff2)$/, //字体处理
-                use: 'asset/resource', //以文件方式导出
+                type: 'asset/resource', //以文件方式导出
                 generator: {
                     filename: 'font/[name].[hash:3][ext]'
                 }

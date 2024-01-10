@@ -17,7 +17,10 @@ import './start';
 import 'dayjs/locale/zh-cn';
 import MyBoundary from './ErrorBoundary';
 dayjs.locale('zh-cn');
-
+import * as _ from 'lodash';
+console.log('_.join:', _.join(['1', '2', '3'], ' '));
+const library = require('../lib/library');
+console.log('library=', library);
 // 可合并reducer
 // const reduceMerge=combineReducers(reducer);
 // 使用applyMiddleware 中间件，可以支持action 返回一个方法
@@ -26,23 +29,20 @@ const store = createStore(reducer, applyMiddleware(thunk));
 const root = createRoot(document.getElementById('root') as any);
 const Info = { address: '广州上汤', tel: '13423882680', email: 'abcd6@qq.com' };
 const App = () => {
-  const context = useContext(MyContext);
-  console.log('APP context=', context);
-  return (
-    // antd 配置
-    <ConfigProvider
-      theme={{ token: { colorPrimary: '#1890ff' } }}
-      locale={zhCN}
-    >
-      {/* redux store */}
-      <Provider store={store}>
-        <MyContext.Provider value={Info}>
-          <MyBoundary>
-            <Entry />
-          </MyBoundary>
-        </MyContext.Provider>
-      </Provider>
-    </ConfigProvider>
-  );
+    const context = useContext(MyContext);
+    console.log('APP context=', context);
+    return (
+        // antd 配置
+        <ConfigProvider theme={{ token: { colorPrimary: '#1890ff' } }} locale={zhCN}>
+            {/* redux store */}
+            <Provider store={store}>
+                <MyContext.Provider value={Info}>
+                    <MyBoundary>
+                        <Entry />
+                    </MyBoundary>
+                </MyContext.Provider>
+            </Provider>
+        </ConfigProvider>
+    );
 };
 root.render(<App />);
