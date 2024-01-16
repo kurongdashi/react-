@@ -48,6 +48,37 @@ BOM（Browser Object Model）也提供了一些对象，它们代表了浏览器
 IE盒子模型：宽度包含padding，border
 ```
 
+```
+webpack 流程
+1、从配置文件和shell命令中读取参数
+2、开始编译初始化compiler 对象，加载plugin
+3、找出entry入口
+4、根据loader 及其依赖开始编译
+5、完成编译得到所有依赖关系图
+6、输出依赖关系文件
+```
+
+```
+tree-shaking 两种开启方式
+在生产环境下默认是开启的
+1、optimization.useExports：true,表示按照导入导出的规则删除未使用的代码，依赖于terser插件执行js检查任务
+会检查每一个依赖
+
+2、在optimization.sideEffects=true，表示使用模块/文件会跳过terser检查，直接删除未使用的代码
+
+使用注释 /*#__PURE__*/ funtion add(){}，表示这个函数如果没有被使用，则可以安全删除
+package.json 里配置哪些文件有副作用（副作用就是没有被导出使用，但任然有用中间代码，就是不能删除的代码）
+{
+    "name":'myproject',
+    "sideEffects":['./src/start.ts','*.css','*.less'],//这里面的模块有副作用(非有必要不要使用)
+    "sideEffects":false,//整个项目都没有副作用
+}
+注意：
+必须使用esm 导入导出
+不能被 @babel/preset-env 编译为commonjs否则无法生效
+
+```
+[webpack 的 runtimeChunk](https://blog.csdn.net/fy_java1995/article/details/110119934)
 [webpack 的 tree-shaking](https://www.zhihu.com/question/568855947/answer/3274565524)
 [前端面试题2](https://zhuanlan.zhihu.com/p/609698817)
 [前端面试题3](https://zhuanlan.zhihu.com/p/563612885)

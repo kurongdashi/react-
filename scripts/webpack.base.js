@@ -9,21 +9,11 @@ module.exports = {
     entry: {
         index: '/src/App.tsx'
         // app: '/src/App2.ts'
-        // 不推荐使用，当多个入口中有相同的lodash依赖时需要处理
-        // index: {
-        //     import: '/src/App.tsx',
-        //     dependOn: 'shared' //依赖变量
-        // },
-        // app2: {
-        //     import: '/src/App2.ts',
-        //     dependOn: 'shared'
-        // },
-        // shared: 'lodash' // 如果想要在一个 HTML 页面上使用多个入口起点，同时还需开启optimizationo.runtimeChunk=single 才能
     },
     output: {
         // path: path.resolve(__dirname, '../dist'),
         filename: 'js/[name].[contenthash:6].js',
-        // 入口对应chunk.js 名称
+        // 懒加载对应的页面 chunk.js 名称
         chunkFilename: 'js/[name].[contenthash:6].chunk.js',
         // 本地BrowserRouter 配置将请求路径转发的 index.html
         // 一般对应打包生成的目录就可以了
@@ -49,7 +39,7 @@ module.exports = {
             filename: 'index.html',
             template: path.resolve(__dirname, '../public/index.html'),
             // 在根目录下放置 favicon.ico 就可以
-            favicon: path.resolve(__dirname, '../favicon.ico')
+            favicon: 'favicon.ico'
         })
     ],
 

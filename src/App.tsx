@@ -19,8 +19,10 @@ import MyBoundary from './ErrorBoundary';
 dayjs.locale('zh-cn');
 import * as _ from 'lodash';
 console.log('_.join:', _.join(['1', '2', '3'], ' '));
-const library = require('../lib/library');
-console.log('library=', library);
+// import * as library from '../lib';
+// console.log('library=', library);
+import { print, add } from './treeShaking';
+print('牛肉');
 // 可合并reducer
 // const reduceMerge=combineReducers(reducer);
 // 使用applyMiddleware 中间件，可以支持action 返回一个方法

@@ -9,7 +9,3 @@ registerMicroApps([
     }
 ]);
 start();
-
-const library = require('../lib/library.js');
-console.log('start---library', library);
-console.log(library.add(1, 2, 3, 4, 5));
