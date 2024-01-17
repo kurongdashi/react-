@@ -47,7 +47,16 @@ module.exports = {
         rules: [
             {
                 test: /\.(t|j)sx?$/, //ts、tsx 都匹配
-                use: ['babel-loader?cacheDirectory'], //?cacheDirectory 使用缓存
+                // thread-loader 开启多线程打包,可能会增加打包时长
+                use: [
+                    // 'thread-loader',
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            cacheDirectory: true
+                        }
+                    }
+                ], //cacheDirectory 使用缓存
                 // exclude: '/node_modules/'
                 include: [path.resolve('src')] // 缩小范围
             },

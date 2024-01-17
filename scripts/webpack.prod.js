@@ -3,13 +3,14 @@ const { merge } = require('webpack-merge');
 const webpack = require('webpack');
 // 清除dist
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-6;
+// 打包过程中可更好查看打包错误原因
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const baseConfig = require('./webpack.base');
-// css 分离
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-// 打包优化分析代码
+// 打包优化分析代码，生成的stats.json 里面有打包时间
 // const WebpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const WebpackBuildNotifier = require('webpack-build-notifier');
+// 打包进度条展示插件
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 // css 压缩
 const OptimizeCssPlugin = require('optimize-css-assets-webpack-plugin');
 
@@ -43,11 +44,19 @@ const proConfig = {
         }
     },
     plugins: [
+        // progressbar
+        new ProgressBarPlugin(),
         new FriendlyErrorsWebpackPlugin(),
         new CopyWebpackPlugin({
             patterns: [{ from: path.resolve(__dirname, '../public/README.md'), to: path.resolve(__dirname, '../dist/README.md') }]
         }),
-        // new WebpackBundleAnalyzer(),
+        // 打包完成行在官网https://webpack.github.io/analyse/ ，上传stats.json 查看分析报告
+        // new WebpackBundleAnalyzer({
+        //     // 不打开浏览器分析
+        //     analyzerMode: 'disabled',
+        //     generateStatsFile: true,
+        //     statsFilename: 'stats.json'
+        // }),
         // new CleanWebpackPlugin(), //可使用output.clean 替代
         new webpack.DefinePlugin({
             'process.env.PUBLIC_PATH': "'/public'"
