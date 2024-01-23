@@ -13,7 +13,7 @@ module.exports = {
     output: {
         // path: path.resolve(__dirname, '../dist'),
         filename: 'js/[name].[contenthash:6].js',
-        // 懒加载对应的页面 chunk.js 名称
+        // 懒加载对应的页面 chunk.js（懒加载的子路由页面） 名称
         chunkFilename: 'js/[name].[contenthash:6].chunk.js',
         // 本地BrowserRouter 配置将请求路径转发的 index.html
         // 一般对应打包生成的目录就可以了
@@ -31,6 +31,7 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.js', '.less', '.json']
     },
     plugins: [
+        // css分离
         new MiniCssExtractPlugin({
             filename: 'css/[name][contenthash:6].css'
         }),
@@ -94,19 +95,23 @@ module.exports = {
             },
             {
                 test: /\.(svg|png|gif|\.jpe?g)$/,
-                // type: 'asset/resource' //以base64 方式导出
-                use: [
-                    {
-                        loader: 'url-loader',
-                        options: {
-                            name: 'assets/[name][hash:6].[ext]',
-                            // 图片输出目录
-                            outputPath: 'assets',
-                            //   图片小于2M 打包成base64
-                            limit: 2048
-                        }
-                    }
-                ]
+                type: 'asset/resource', //以base64 方式导出
+                generator: {
+                    // 输出目录+hash+ext
+                    filename: 'assets/[hash][ext]'
+                }
+                // use: [
+                //     {
+                //         loader: 'url-loader',
+                //         options: {
+                //             name: '[name][hash:6].[ext]',
+                //             // 图片输出目录
+                //             outputPath: 'assets',
+                //             //   图片小于2M 打包成base64
+                //             limit: 2048
+                //         }
+                //     }
+                // ]
             },
             {
                 test: /\.(eot|ttf|woff|woff2)$/, //字体处理
