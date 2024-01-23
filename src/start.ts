@@ -16,20 +16,20 @@ registerMicroApps([
     }
 ]);
 // 设置默认加载的子应用，当主应用启动或刷新页面，会自动路由到此
-setDefaultMountApp('/app-react/page1/test2');
+// setDefaultMountApp('/app-react/page1/test2');
 // 主应用与子应用通信 initGlobalState
 const { onGlobalStateChange, setGlobalState, offGlobalStateChange } = initGlobalState({ name: 'world' });
 start();
-setTimeout(() => {
-    // 设置全局变量,会和其他地方设置的值合并
-    setGlobalState({
-        name: 'zhangsan'
-    });
-    setTimeout(() => {
-        // 注销监听
-        offGlobalStateChange();
-    }, 2000);
-}, 4000);
+// setTimeout(() => {
+//     // 设置全局变量,会和其他地方设置的值合并
+//     setGlobalState({
+//         name: 'zhangsan'
+//     });
+//     setTimeout(() => {
+//         // 注销监听
+//         offGlobalStateChange();
+//     }, 2000);
+// }, 4000);
 
 // 监听全局变量
 onGlobalStateChange((state, prev) => {
