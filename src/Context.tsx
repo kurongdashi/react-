@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext } from "react";
 /**
  * context 使用和redux store 差不多
  * 1、Context 需要使用createContext() 创建，此方法必须有一个defaultValue 入参
@@ -7,9 +7,4 @@ import { createContext } from 'react';
  *
  */
 
-export const Info = {
-  address: '深圳福田',
-  tel: '13523882680',
-  email: '123456@qq.com'
-};
 export default createContext({});

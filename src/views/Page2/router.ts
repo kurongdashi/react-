@@ -19,11 +19,11 @@ const Index = [
         title: '深入了解react ',
         path: '/page2/test3',
         element: Test3
-    },
-    {
-        title: 'qiankun动态加载子组件应用 ',
-        path: '/page2/test4',
-        element: Test4
     }
+    // {
+    //     title: 'qiankun动态加载子组件应用 ',
+    //     path: '/page2/test4',
+    //     element: Test4
+    // }
 ];
 export default Index;

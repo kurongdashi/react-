@@ -51,7 +51,7 @@ IE盒子模型：宽度包含padding，border
 ```
 webpack 流程
 1、从配置文件和shell命令中读取参数
-2、开始编译初始化compiler 对象，加载plugin
+2、开始编译初始化compiler 对象后初始化plugin
 3、找出entry入口
 4、根据loader 及其依赖开始编译
 5、完成编译得到所有依赖关系图
@@ -78,6 +78,23 @@ package.json 里配置哪些文件有副作用（副作用就是没有被导出�
 不能被 @babel/preset-env 编译为commonjs否则无法生效
 
 ```
+
+```
+js 垃圾回收机制：标记清除，和引用计数（少用）
+过程：从根对象开始遍历所有可访问的对象，将其标记为活动，未被标记的则为垃圾对象，标记完成后会清空堆内存，释放内存，
+同时还会整理内存空间，将活动对象移动到一起，减少内存碎片
+注意：减少使用全局对象，及时解除非不要的对象引用，避免循环引用（闭包），使用对象管理池来重复使用像线程池
+
+```
+
+```
+sevlet 工作原理
+当客户端发送请求后，通过service()方法进行响应，然后选择使用doGet或doPost处理，Sevlet接口被genericSevlet抽象类实现
+包括init,sevice，destory三个声明周期方法，httpSevlet对象又继承了genericSevlet所以自定义sevlet 只需继承httpSelvt然后
+复写sevice()或doGet，doPost方法即可
+
+```
+
 [webpack 的 runtimeChunk](https://blog.csdn.net/fy_java1995/article/details/110119934)
 [webpack 的 tree-shaking](https://www.zhihu.com/question/568855947/answer/3274565524)
 [前端面试题2](https://zhuanlan.zhihu.com/p/609698817)

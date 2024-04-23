@@ -6,10 +6,7 @@ const htmlWebpackPlugin = require('html-webpack-plugin');
 const publicPath = process.env.NODE_ENV == 'development' ? '/' : '/dist/';
 
 module.exports = {
-    entry: {
-        index: '/src/App.tsx'
-        // app: '/src/App2.ts'
-    },
+    entry: './src/App.tsx',
     output: {
         // path: path.resolve(__dirname, '../dist'),
         filename: 'js/[name].[contenthash:6].js',

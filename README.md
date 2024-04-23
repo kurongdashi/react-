@@ -1,16 +1,34 @@
 # 1、项目搭建顺序
+
 [参考搭建]（https://blog.csdn.net/qq_41581588/article/details/129177415）
+
 - 安装yarn `npm i yarn -g`
-## 安装基础依赖 
-### 安装打包工具 `yarn add webpack webpack-cli webpack-dev-server webpack-merge cross-env`
+
+## 安装打包工具 `yarn add webpack webpack-cli webpack-dev-server webpack-merge cross-env`
+
+## 打包文件处理
+
 - webpac 包含基础API
 - webpack-cli 可以提供命令行 再package.json 中使用 webpack --config 等命令
 - webpack-dev-server 可以启动一个热更新本地服务
 - cross-env 可以再运行webpack 时设置环境变量 cross-env NODE_ENV=pro
 
-- 安装打包配置项所需依赖 `yarn add clean-webpack-plugin html-webpack-plugin`
+## 打包文件插件
+
+- 安装打包配置项所需插件依赖 `yarn add clean-webpack-plugin html-webpack-plugin`
 - html-webpack-plugin 自动生成html
-- clean-webpack-plugin 每次运行前清除dist
+- clean-webpack-plugin 每次运行前清除dist，webpack5中被output.clean=true,取代
+- min-css-extract-plugin css提取单独文件
+- progress-bar-webpack-plugin 打包时显示进度
+- copy-webpack-plugin 打包时可拷贝文件
+- webpack-merge webpack配置文件合并，多个环境不同配置可抽离公共部分
+- portfinder 在启动webpack server 时如果当前端口被占用则返回新的端口
+- optimize-css-assets-webpack-plugin css 压缩
+
+- zip-webpack-plugin 打包后压缩dist (可选)
+- webpack-bundle-analyzer 打包后文件大小分析(可选)
+
+## 样式处理
 
 - 安装样式处理所需依赖 `yarn add less-loader less css-loader style-loader postcss-loader postcss-preset-env`
 - less 提供less语法
@@ -18,62 +36,79 @@
 - css-loader 可以处理css
 - postcss-loader 可以自动给样式添加前缀
 - postcss-preset-env 搭配postcss-loader 使用
-- style-loader 可以将 css 以 <style> 标签形式插入html
+- autoprefixer 在postcss-loader 中配置，自动增加css兼容前缀
+- style-loader 可以将 css 以 `<style>` 标签形式插入html（慎用）
 
-- 安装图片处理所需依赖 `yarn add file-loader`
-- file-loader 可以压缩图片
+- 安装图片处理所需依赖 `yarn add url-loader`
+- url-loader 可以压缩图片,url-loader内部已经依赖会自动调用file-loader
 
-- 安装react 所需依赖 `yarn add react react-dom reacr-router-dom @types/react @types/react-dom @types/react-router-dom typescript ts-loader`
-- react-dom 支持jsx
-- react-router-dom 支持路由
-- typescript 提供语法支持
-- ts-loader 处理.ts、.tsx 文件
-- tsconfig.json ts配置项
-[tsconfig配置]（https://jkchao.github.io/typescript-book-chinese/project/compilationContext.html#基础）
-
-
-- 安装JS处理 所需依赖 `yarn add @babel/core @babel/preset-env @babel/preset-typescript @babel/preset-react @babel/plugin-transform-runtime`
-babel-loader 识别
-@babel/preset-react react转js
-@babel/preset-typescript ts转js
-@babel/preset-env 搭配babel 使用 转化普通语法
-@babel/plugin-transform-runtime 将es6 高级语法转化
-
+```js
+// postcss-loader 配置
+{
+                        loader: 'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                ident: 'postcss',
+                                // 自动添加css前缀
+                                plugin: [
+                                    // css 加浏览器兼容前缀
+                                    require('autoprefixer'),
+                                    // 帮助找到package.json 里的browserslist 配置作用兼容浏览器
+                                    require('postcss-preset-env')
+                                ]
+                            }
+                        }
+                    }
 ```
+
+## 处理js,高阶语法，和模版语法
+
+- 安装JS处理 所需依赖 `yarn add @babel/preset-typescript @babel/preset-react @babel/plugin-transform-runtime`
+  babel-loader webpack+babel组合，内部包括了@babel/core，@babel/preset-env
+  @babel/preset-react react转js
+  @babel/preset-typescript ts转js
+  @babel/preset-env 搭配babel，浏览器环境兼容， 使用 转化普通语法
+  @babel/plugin-transform-runtime 将es6 高级语法转化并将公共代码抽离减少重复逻辑，减少代码体积
+
+```json
 // .babelrc 文件配置项
 {
-    "presets": [
-        "@babel/preset-react",
-        "@babel/preset-env",
-        "@babel/preset-typescript"
-    ],
-    "plugins": ["@babel/plugin-transform-runtime"]
-
+  "presets": [
+    "@babel/preset-react",
+    "@babel/preset-env",
+    "@babel/preset-typescript"
+  ],
+  "plugins": ["@babel/plugin-transform-runtime"]
 }
 ```
 
+## 代码规范 eslint
+
+### vscode 需要安装eslint+perttier插件
+
+- [prettier如何配置](https://blog.csdn.net/qq_41887214/article/details/132391992)
 - 安装eslint 实现代码校验及自动格式化代码 `yarn add --dev eslint eslint-plugin-react eslint-plugin-react-hooks eslint-config-prettier prettier`
-eslint-config-prettier prettier 格式化
-eslint eslint-plugin-react eslint-plugin-react-hooks 校验
-[eslint配置](http://eslint.cn/docs/rules/)
+- prettier 代码格式化能力提供者
+- eslint 代码检查能力提供者
+- eslint-config-prettier 关闭eslint和prettier有冲突的配置
+- eslint-plugin-prettier 调用prettier，可以让eslint继承rules
+- eslint-plugin-vue vue语法检查
+- eslint-plugin-react react语法校验
+- eslint-plugin-react-hooks hooks校验
+- @typescript-eslint/parser eslint中的ts解析器
+- @typescript-eslint/eslint-plugin ts语法校验
+  [eslint配置](http://eslint.cn/docs/rules/)
 
-```
-vscode 配置 安裝prettier 插件
-settings =>format on save => 勾选上
-settings => editor default format => 选择 prettier
-查看setting.json 配置如下
-"editor.formatOnSave": true,
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
+### 在项目项创建.vscode目录，并创建settings.json文件，来控制perttier插件
 
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+```js
+// .vscode/setting.json 配置如下
+{
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
-项目下.repttierrc 优先级最高 
-// .repttierrc.js（json） 配置 
+// 项目下文件优先级.repttierrc > .repttierrc.config.js> .repttierrc.js
+// .repttierrc（json） 配置
 {
   "printWidth": 100,	//每行最多显示的字符数
   "tabWidth": 2,//tab的宽度 2个字符
@@ -82,49 +117,144 @@ settings => editor default format => 选择 prettier
   "singleQuote": true,//使用单引号代替双引号
   "trailingComma": "none",//结尾是否添加逗号
   "bracketSpacing": true,//对象括号俩边是否用空格隔开
-  "bracketSameLine": true,;//组件最后的尖括号不另起一行
+  "bracketSameLine": true,//组件最后的尖括号不另起一行
   "arrowParens": "always",//箭头函数参数始终添加括号
   "htmlWhitespaceSensitivity": "ignore",//html存在空格是不敏感的
   "vueIndentScriptAndStyle": false,//vue 的script和style的内容是否缩进
-  "endOfLine": "auto",//行结尾形式 mac和linux是\n  windows是\r\n 
+  "endOfLine": "auto",//行结尾形式 mac和linux是\n  windows是\r\n
   "singleAttributePerLine": false //组件或者标签的属性是否控制一行只显示一个属性
-  "jsxBracketSameLine": true, // 将JSX标签放在同一行（推荐）  
+  "jsxBracketSameLine": true, // 将JSX标签放在同一行（推荐）
+}
 
+// .eslintrc
+{
+    extends: [
+        'eslint:recommended',
+        'plugin:react/recommended',
+        'plugin:react-hooks/recommended',//hook规则
+        'plugin:typescript-eslint/recommended',//ts 规则
+        'plugin:prettier/recommended',
+        'prettier'
+    ],
+    plugins: ['react', 'react-hooks', 'prettier'],
+    // 解析器1 > 解析器2
+    parser:'@typescript-eslnt/parser',
+    // 解析器配置
+    parserOptions: {
+        // 解析器2
+        parser:'@typescript-eslnt/parser',
+        ecmaVersion: 2021,//解析es版本，可选latest最新
+        sourceType: 'module',//解析模式 esmodule
+    },
+    // 工作环境
+    env: {
+        browser: true,
+        es6: true,
+        jsx: true,
+        react: true,
+    },
+    rules: {
+        'prettier/prettier': 'error', // 使用Prettier来格式化代码，设置为error级别以确保代码格式化
+        'react/display-name': 'off', // 禁用React的display-name规则（如果需要可以随时开启）
+        'react/prop-types': 'off', // 禁用React的prop-types规则（如果需要可以随时开启）
+        'react/state-in-constructor': 'off', // 禁用React的state-in-constructor规则（如果需要可以随时开启）
+        'react/jsx-filename-extension': [1, { extensions: ['.tsx'] }], // 指定React文件扩展名（对于TypeScript文件）
+        'react-hooks/rules-of-hooks': 'error', // 确保遵循React Hooks的规则（例如，只在effect使用useState）
+        'react-hooks/exhaustive-deps': 'warn' // 对依赖项的检查，如果有不完整的依赖项，会发出警告（例如，当useEffect更改某些状态时）
+    }
 }
 
 ```
-[prettier如何配置](https://blog.csdn.net/qq_41887214/article/details/132391992)
-- 同时在vscode 中勾选 format on save
 
+## stylelint 样式检查器
 
-- 安装 `yarn add portfinder --dev` 本地启动时如果端口被占用，则返回一个新端口
+- 安装`npm i stylelint stylelint-config-html stylelint-config-recommended-scss stylelint-config-recommended-vue stylelint-config-standard         stylelint-config-standard-scss stylelint-config-recess-order postcss postcss-html stylelint-config-prettier -D
+`
+- 安装vscode stylelint插件
+
+## editconfig 帮助在不同编译器下控制代码规范
+
+- 安装vscode editconfig 插件
+- 创建.editorconfig文件
+
 ```
-portfinder.basePort = PORT;
-const port = await portfinder.getPortPromise();
-devConfig.devServer.port = port;
+# http://editorconfig.org
+root = true
+
+[*] # 表示所有文件适用
+charset = utf-8 # 设置文件字符集为 utf-8
+end_of_line = lf # 控制换行类型(lf | cr | crlf)
+insert_final_newline = true # 始终在文件末尾插入一个新行
+indent_style = tab # 缩进风格（tab | space）
+indent_size = 2 # 缩进大小
+max_line_length = 130 # 最大行长度
+
+[*.md] # 表示仅 md 文件适用以下规则
+max_line_length = off # 关闭最大行长度限制
+trim_trailing_whitespace = false # 关闭末尾空格修剪
+
+```
+
+## git提交规范
+
+- husky git commit 拦截保证代码必须格式化后才能提交
+- lint-stagee 提交前校验并使用prettier格式化缓存区代码
+- @commitlint/cli 校验提交描述信息是否规范
+- commitizen 生成标准的提交描述信息
+- cz-git 输出commitizn
+
+## tsconfig
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES5", //编译为es5
+    "module": "ESNext",
+    "strict": true,
+    "esModuleInterop": true, //允许使用es6 导入导出
+    "skipLibCheck": true, //跳过lib检查
+    "forceConsistentCasingInFileNames": false, //是否强制检查文件名称
+    "jsx": "react", //types 使用jsx
+    "moduleResolution": "node",
+    // 声明文件所在目录 对应 src/types/types.d.ts d.ts是固定后缀
+    "typeRoots": ["./src/types", "./node_modules/@types"],
+    "baseUrl": "./", //ts 基础路径
+    "rootDir": "./src",
+    "paths": {
+      "@/*": ["src/*"] // 配置路径别名让ts支持 和webpack里同步
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
 ```
 
 ## 项目使用
 
 - 使用BrowserRouter时本地需要配置
-```
-output: {
+
+```js
+{
+    output: {
         path: path.resolve(__dirname, '../dist'),
         filename: "js/[name][hash:6].js",
         // 本地BrowserRouter 配置将请求路径转发的 index.html
         publicPath: '/',
     },
- devServer: {
+     devServer: {
         // 启用history API 路由不存在时返回 index.html
         historyApiFallback: true,
      }
+}
 
 ```
+
 [BrowserRouter使用](https://blog.csdn.net/wuyujin1997/article/details/111937956)
 
 - types.d.ts 使用在项目中需要定义图片、less、等自定义模块，否则typescript会找不到类型
 
 在tsconfig.json 中如下配置
+
 ```
  // 声明文件所在目录 对应 src/types/types.d.ts d.ts是固定后缀
         "typeRoots": [
@@ -133,9 +263,9 @@ output: {
         ],
 ```
 
-
 - redux 的使用 `yarn add redux react-redux redux-thunk`
-- 创建store provider 
+- 创建store provider
+
 ```
 import { createStore } from 'redux';
 import reducer from '@/store/reducer'
@@ -150,6 +280,7 @@ root.render(<Provider store={store}>
 ```
 
 - 使用中间件，可在dispatch 之前做一些操作,`yarn add redux-thunk `
+
 ```
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 // 使用applyMiddleware 中间件，可以支持action 返回一个方法
@@ -172,10 +303,12 @@ export const asyncUpdate = () => {
     }
 }
 ```
+
 [redux使用](https://blog.csdn.net/m0_68324632/article/details/128819264)
 [redux中间件的理解](https://zhuanlan.zhihu.com/p/200775480)
 
 - 使用mockjs `yarn add mockjs @types/mockjs --dev`
+
 ```
 // src/mock/index.ts 在入口处引用此
 import Mock from 'mockjs';
@@ -191,17 +324,25 @@ Mock.mock('/api/getformData', {
 })
 
 ```
+
 [mockjs使用](https://blog.csdn.net/TKY666/article/details/126215513)
 
-
+- 安装react 所需依赖 `yarn add react react-dom reacr-router-dom @types/react @types/react-dom @types/react-router-dom typescript ts-loader`
+- react-dom 支持jsx
+- react-router-dom 支持路由
+- typescript 提供语法支持
+- ts-loader 处理.ts、.tsx 文件
+- tsconfig.json ts配置项
+  [tsconfig配置]（https://jkchao.github.io/typescript-book-chinese/project/compilationContext.html#基础）
 
 ### 微前端实现方案 在主应用中，通过使用微前端框架（如single-spa、qiankun等）来加载和管理子应用。
+
 [微前端实现方案参考](https://www.jianshu.com/p/0ac8e1a666cf)
 [single-spa](https://zh-hans.single-spa.js.org/docs/getting-started-overview/)
 [qiankun](https://qiankun.umijs.org/zh/guide)
 
-
 ### 文档参考
+
 [react-route-dom](https://reactrouter.com/en/dev/upgrading/v5)
 [webpack](https://webpack.docschina.org/configuration/devtool/#root)
 [ts入门](http://ts.xcatliu.com/)
