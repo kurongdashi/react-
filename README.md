@@ -11,7 +11,16 @@
 - webpac 包含基础API
 - webpack-cli 可以提供命令行 再package.json 中使用 webpack --config 等命令
 - webpack-dev-server 可以启动一个热更新本地服务
-- cross-env 可以再运行webpack 时设置环境变量 cross-env NODE_ENV=pro
+- cross-env 可以再运行webpack 时设置环境变量 cross-env NODE_ENV=pro，变量注入到process.env中
+- dotenv 可以读取.env文件里的配置注入到process.env中，用于根据环境修改webpack配置
+- process.env.NODE_ENV 值默认等于webpack mode
+
+```js
+// 执行加载命令后，读取配置文件中的环境变量，注入process.env中
+require('dotenv').config({ path: './env' });
+// .env
+PUBLIC_PATH = 'http://www.xxx';
+```
 
 ## 打包文件插件
 
@@ -198,10 +207,38 @@ trim_trailing_whitespace = false # 关闭末尾空格修剪
 ## git提交规范
 
 - husky git commit 拦截保证代码必须格式化后才能提交
-- lint-stagee 提交前校验并使用prettier格式化缓存区代码
-- @commitlint/cli 校验提交描述信息是否规范
+- lint-stagee 提交前校验并使用prettier格式化缓存区代码 `npx husky add .husky/pre-commit "npx lint-staged"`
+- @commitlint/cli 校验提交描述信息是否规范 `npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'`
+- @commitlint/config-conventional 标准配置，可以在自定义commitlint中继承此
 - commitizen 生成标准的提交描述信息
 - cz-git 输出commitizn
+- [文档参考](https://blog.csdn.net/du_aitiantian/article/details/130326158)
+
+```json
+// 创建.husky/pre-commit 文件并添加命令
+npx lint-staged
+// 创建.husky/commit-msg 文件并添加命令
+npx --no-install commitlint --edit "$1"
+// 方式2，直接在package.json中配置
+{
+ "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+    }
+  },
+  "lint-staged": {
+    "*.{jsx,js,tsx,ts}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  }
+}
+```
 
 ## tsconfig
 
@@ -255,7 +292,7 @@ trim_trailing_whitespace = false # 关闭末尾空格修剪
 
 在tsconfig.json 中如下配置
 
-```
+```js
  // 声明文件所在目录 对应 src/types/types.d.ts d.ts是固定后缀
         "typeRoots": [
             "./src/types",
@@ -266,7 +303,7 @@ trim_trailing_whitespace = false # 关闭末尾空格修剪
 - redux 的使用 `yarn add redux react-redux redux-thunk`
 - 创建store provider
 
-```
+```js
 import { createStore } from 'redux';
 import reducer from '@/store/reducer'
 import { Provider } from 'react-redux'
@@ -281,7 +318,7 @@ root.render(<Provider store={store}>
 
 - 使用中间件，可在dispatch 之前做一些操作,`yarn add redux-thunk `
 
-```
+```js
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 // 使用applyMiddleware 中间件，可以支持action 返回一个方法
 const store = createStore(reducer, applyMiddleware(thunk));
@@ -309,20 +346,18 @@ export const asyncUpdate = () => {
 
 - 使用mockjs `yarn add mockjs @types/mockjs --dev`
 
-```
+```js
 // src/mock/index.ts 在入口处引用此
 import Mock from 'mockjs';
 // 引入此文件即开启mock 拦截请求
 Mock.mock('/api/getformData', {
-    "list|1-10": [
-        {
-            "string|1-19": 'aa',
-            "number|1-100": 30,
-
-        }
-    ]
-})
-
+  'list|1-10': [
+    {
+      'string|1-19': 'aa',
+      'number|1-100': 30
+    }
+  ]
+});
 ```
 
 [mockjs使用](https://blog.csdn.net/TKY666/article/details/126215513)
