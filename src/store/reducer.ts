@@ -1,7 +1,7 @@
 export enum ActionType {
-  ADD = "ADD",
-  SUB = "SUB",
-  UPDATE = "UPDATE",
+  ADD = 'ADD',
+  SUB = 'SUB',
+  UPDATE = 'UPDATE'
 }
 interface ActionData {
   [key: string]: any;
@@ -10,7 +10,11 @@ export interface Action {
   type: ActionType;
   data: ActionData;
 }
-const initialState: any = {};
+
+let initialState: any = {};
+if (sessionStorage.info) {
+  initialState = JSON.parse(sessionStorage.info);
+}
 
 const reducer = (state = initialState, action: Action) => {
   switch (action.type) {

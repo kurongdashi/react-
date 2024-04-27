@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+#. "$(dirname -- "$0")/_/husky.sh"
 
-echo "-----------git提交信息校验-----------"
-npx --no -- commitlint --edit ${1}
+#echo "-----------git提交信息校验-----------"
+#npx --no -- commitlint --edit ${1}

@@ -1,5 +1,5 @@
-import page1Router from "@/views/Page1/router";
-import page2Router from "@/views/Page2/router";
+import page1Router from '@/views/Page1/router';
+import page2Router from '@/views/Page2/router';
 
 interface routerProps {
   title: string;
@@ -9,13 +9,13 @@ interface routerProps {
 
 const appRouter = [
   {
-    title: "测试子应用页面1-1",
-    path: "/app-react/page1/test1",
+    title: '测试子应用页面1-1',
+    path: '/app-react1/page1/test1'
   },
   {
-    title: "测试子应用页面1-2",
-    path: "/app-react/page1/test2",
-  },
+    title: '测试子应用页面1-2',
+    path: '/app-react2'
+  }
 ];
-const router: routerProps[] = [...page1Router, ...page2Router];
+const router: routerProps[] = [...page1Router, ...page2Router, ...appRouter];
 export default router;

@@ -157,10 +157,9 @@ PUBLIC_PATH = 'http://www.xxx';
     },
     // 工作环境
     env: {
-        browser: true,
-        es6: true,
-        jsx: true,
-        react: true,
+        browser: true,//浏览器
+        es6: true,//es
+        node: true,//支持node
     },
     rules: {
         'prettier/prettier': 'error', // 使用Prettier来格式化代码，设置为error级别以确保代码格式化
