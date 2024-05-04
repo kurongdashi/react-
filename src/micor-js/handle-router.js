@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import { getApps } from './index';
 import { importHtml } from './import-html';
 import { getPrevRouter } from './rewrite-router';
@@ -24,7 +25,7 @@ export const handleRouter = async () => {
   // if (window.__POWERED_BY_QIANKUN__) {
   //   __webpack_public_path__ = window.__INJECTED_PUBLIC_PATH_BY_QIANKUN__;
   // }
-  window.__INJECTED_PUBLIC_PATH_BY_QIANKUN__ = app.entry + '/';
+  window.__INJECTED_PUBLIC_PATH_BY_QIANKUN__ = app.entry;
   // 2、去加载对应路径资源
   const { execScript, template } = await importHtml(app.entry);
   //   4、将htm渲染到container
@@ -33,8 +34,8 @@ export const handleRouter = async () => {
   container.appendChild(template);
   //   3、读取html内的script,并执行js
   const module = await execScript();
-  //   将钩子函数挂到app配置对象上
   debugger;
+  //   将钩子函数挂到app配置对象上
   app.mount = module.mount;
   app.unmount = module.unmount;
   app.bootstrap = module.bootstrap;

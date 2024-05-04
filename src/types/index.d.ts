@@ -4,10 +4,10 @@ declare module '*.less' {
   const classes: { [key: string]: string };
   export default classes;
 }
-declare module 'micor-js' {
-  export function start(): void;
-  export function registerMicroApps(apps: any): void;
-}
+// declare module 'micor-js' {
+//   export function start(): void;
+//   export function registerMicroApps(apps: any): void;
+// }
 // 定义图片
 declare module '*.jpg';
 declare module '*.jpeg';

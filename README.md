@@ -32,10 +32,12 @@ PUBLIC_PATH = 'http://www.xxx';
 - copy-webpack-plugin 打包时可拷贝文件
 - webpack-merge webpack配置文件合并，多个环境不同配置可抽离公共部分
 - portfinder 在启动webpack server 时如果当前端口被占用则返回新的端口
-- optimize-css-assets-webpack-plugin css 压缩
+- optimize-css-assets-webpack-plugin css 压缩（旧）
+- Css-Minimizer-Webpack-Plugin css 压缩（新）
+- workbox-webpack-plugin 当断网时也能访问网站，原理打包时本地生成一个service-worker.js缓存了网络资源
 
 - zip-webpack-plugin 打包后压缩dist (可选)
-- webpack-bundle-analyzer 打包后文件大小分析(可选)
+- webpack-bundle-analyzer 打包后文件大小分析(本地开发)
 
 ## 样式处理
 
@@ -54,41 +56,86 @@ PUBLIC_PATH = 'http://www.xxx';
 ```js
 // postcss-loader 配置
 {
-                        loader: 'postcss-loader',
-                        options: {
-                            postcssOptions: {
-                                ident: 'postcss',
-                                // 自动添加css前缀
-                                plugin: [
-                                    // css 加浏览器兼容前缀
-                                    require('autoprefixer'),
-                                    // 帮助找到package.json 里的browserslist 配置作用兼容浏览器
-                                    require('postcss-preset-env')
-                                ]
-                            }
-                        }
-                    }
+                loader: 'postcss-loader',
+                options: {
+                  postcssOptions: {
+                    // 自动添加css前缀
+                    plugin: [
+                      // css 加浏览器兼容前缀
+                      'autoprefixer',
+                      // 帮助找到package.json 里的browserslist 配置作用兼容浏览器
+                      'postcss-preset-env'
+                    ]
+                  }
+                }
+              },
 ```
 
 ## 处理js,高阶语法，和模版语法
 
 - 安装JS处理 所需依赖 `yarn add @babel/preset-typescript @babel/preset-react @babel/plugin-transform-runtime`
-  babel-loader webpack+babel组合，内部包括了@babel/core，@babel/preset-env
-  @babel/preset-react react转js
-  @babel/preset-typescript ts转js
-  @babel/preset-env 搭配babel，浏览器环境兼容， 使用 转化普通语法
-  @babel/plugin-transform-runtime 将es6 高级语法转化并将公共代码抽离减少重复逻辑，减少代码体积
+- babel-loader webpack+babel组合，内部包括了@babel/core(AST转换) ，@babel-preset-env (部分js转换：箭头函数，class)
+- @babel/preset-react react转js
+- @babel/preset-typescript ts转js
+- @babel/preset-env 浏览器环境兼容,转化普通语法
+- @babel/plugin-transform-runtime 将es6 高级语法转化并将公共代码抽离减少重复逻辑，减少代码体积
+- core-js 内置了es5模拟E6+的Promise，map等对象，外部使用时自己转为使用core-js的内置对象
+
+- @babel/preset-react-app 包含了上面的所有预设，只需引入一个
 
 ```json
 // .babelrc 文件配置项
 {
   "presets": [
     "@babel/preset-react",
-    "@babel/preset-env",
+    [
+      "@babel/preset-env",
+      {
+        // 配置 core-js
+        "useBuiltIns": "usage",
+        "core-js": "3"
+      }
+    ],
     "@babel/preset-typescript"
   ],
   "plugins": ["@babel/plugin-transform-runtime"]
 }
+```
+
+## webpack 优化方案
+
+- devtool/source-map
+- HMR/热替换 默认只会对css有用， `react-hot-loader`对js模块热替换
+- Rule.oneOf 包裹所有rule规则，类似Switch只使用一种规则
+- Rule.include/exclude 缩小JS打包规则范围
+- babel/cache 主要是对js
+- thead-loader 对js打包和压缩开启，压缩需要使用内置插件terser-webpack-plugin
+- tree-shaking
+- 图片压缩
+- preload/prefetch 插件对懒加载的资源进行预加载
+- optimization
+  - splitChunks
+  - 模块间依赖关系抽取为 runtimeChunk（将hash值），解决：一个被依赖模块改变而引发主文件hash改变
+- babel配置core-js , babel/core只能处理部分js高级语法(箭头函数，class)，core-js能处理Promise，async,Array.includes等语法转为es5
+
+```js
+// runtime~main.js 将依赖的hash单独保存到一个文件中，即时依赖模块改变，也只会引发runtime的改变，不会引发main改变
+return (
+  'js/' +
+  (177 === e ? 'home' : e) +
+  '.' +
+  {
+    127: 'ae320a',
+    177: '5ec1c8',
+    445: '7927e2',
+    612: '10c2ec',
+    716: '0cb636',
+    845: 'c54b8b',
+    870: 'fb076a',
+    952: 'e4e866'
+  }[e] +
+  '.chunk.js'
+);
 ```
 
 ## 代码规范 eslint
@@ -104,6 +151,7 @@ PUBLIC_PATH = 'http://www.xxx';
 - eslint-plugin-vue vue语法检查
 - eslint-plugin-react react语法校验
 - eslint-plugin-react-hooks hooks校验
+- eslint-plugin-import 动态导入校验
 - @typescript-eslint/parser eslint中的ts解析器
 - @typescript-eslint/eslint-plugin ts语法校验
   [eslint配置](http://eslint.cn/docs/rules/)
@@ -241,31 +289,100 @@ npx --no-install commitlint --edit "$1"
 
 ## tsconfig
 
+- 编译入口： include,exclude
+- 解析规则：moduleResolution(模块解析)->types/typeRoots(声明配置)->baseUrl/paths(基础配置)
+
 ```json
 {
   "compilerOptions": {
     "target": "ES5", //编译为es5
-    "module": "ESNext",
-    "strict": true,
+    "module": "commonJs", //输出模块类型
     "esModuleInterop": true, //允许使用es6 导入导出
     "skipLibCheck": true, //跳过lib检查
-    "forceConsistentCasingInFileNames": false, //是否强制检查文件名称
     "jsx": "react", //types 使用jsx
-    "moduleResolution": "node",
-    // 声明文件所在目录 对应 src/types/types.d.ts d.ts是固定后缀
+    "moduleResolution": "node", //模块解析规则，node：从node_modules/查找，classic从当前目录逐层往外找，
+    // "baseUrl": "./", //默认./,可以不配置； 扩展moduleResolution 解析规则，当上面的规则不能找到时，从baseUrl
+    // 基于baseUrl路径，其他声明文件所在目录 对应 src/types/types.d.ts d.ts是固定后缀
     "typeRoots": ["./src/types", "./node_modules/@types"],
-    "baseUrl": "./", //ts 基础路径
-    "rootDir": "./src",
+    // "types": ["self"], // 搭配typeRoots 使用，指定要引入的模块，可以不配置
     "paths": {
       "@/*": ["src/*"] // 配置路径别名让ts支持 和webpack里同步
     }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "include": ["./src/**/*"], //需要编译的目录，** 任意目录，* 任意文件
+  "exclude": ["self", "test.ts"] //用于排除include中的某些目录，或者文件
 }
 ```
 
 ## 项目使用
+
+### webpack 模块联邦实现
+
+- 所有子应用都可以暴露出需要共享的组件，也可以引用其他应用暴露的组件（去中心化）
+- 对比qiankun的基于中心化方式，更加有利用协同开发共享组件，qiankun更适合加载子项目，而非组件
+
+```js
+// 基于ModuleFederationPlugin 实现
+const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+module.exports={
+  entry:'./src/index.tsx',
+  // entry:'./src/entry.js',// 如开启shard共享公共组件库则必须使用
+  output:{
+    // publicPath:'/',//publicPath 如果配置 会和模块联邦有冲突，导致子应用无法正常加载共享组件，加载地址会被替换为自己localhost
+    publicPath:'auto',//模块联邦推荐publicPath 使用auto
+  }
+  ...
+  plugins:[
+    new ModuleFederationPlugin({
+      name: 'app1',//应用名称
+      filename: 'remoteEntry.js',//输出组件的的入口文件名称
+        // 引用的远程模块，key(模块名称)- value(远程应用名称@远程地址+远程入口文件)
+      remotes: {
+        app2Module: `app2@http://localhost:8002/remoteEntry.js`
+      }
+      // 暴露组件，key-value,如果组件中使用了antd等第三方公共库必须，开启shard
+      exposes: {
+        './MyButton': './src/MyButton'
+      }
+      // 是否需要共享公共组件库，如果共享那么在index.tsx 必须抽离出一个promise文件做为入口
+      // shared: ['react', 'antd']
+    })
+  ]
+}
+// entry.js 通过读取index.tsx入口,返回promise 来实现shard 组件共享
+import('./index')
+
+// App.tsx 使用远程组件，必须import('app1Module/MyButton') 异步加载组件
+
+const MyButton = React.lazy(() => import('app1Module/MyButton'));
+// 或者
+const  MyButton = await import('app1Module/MyButton');
+
+
+```
+
+### qiankun + 模块联邦
+
+- qiankun 会加载带有entry 标记的script标签内容，或者加载最后一个script [使用问题](https://qiankun.umijs.org/zh/faq)
+
+```js
+// 子应用APP2 使用模块联邦会默认将remoteEntry.js在放在最后script加载
+ <script defer src="js/main5c5083.js"></script><script defer src="remoteEntry.js"></script></head>
+
+// 需要 会加载带有entry 标记的script标签内容，或者加载最后一个script
+  new htmlWebpackPlugin({
+      title: 'app2应用',
+      template: path.resolve(__dirname, '../public/index.html'),
+      chunks: ['main'],//手动调整script 加载顺序
+    }),
+// entry.js 入口需要修改
+import('./index');
+export const bootstrap = () => promise.then(m => m.bootstrap());
+export const mount = () => promise.then(m => m.mount());
+export const unmount = () => promise.then(m => m.unmount());
+
+
+```
 
 - 使用BrowserRouter时本地需要配置
 

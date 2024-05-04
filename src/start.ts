@@ -6,7 +6,7 @@ import {
   // initGlobalState,
   // addGlobalUncaughtErrorHandler,
   // removeErrorHandler
-} from 'micor-js';
+} from 'qiankun';
 // 注册乾坤子应用
 registerMicroApps([
   {
@@ -24,7 +24,7 @@ registerMicroApps([
   },
   {
     name: 'react-app2',
-    entry: '//localhost:8002', //入口
+    entry: '//localhost:8002/', //入口
     container: '#subapp-container', //容器
     activeRule: '/app-react2' // 子应用路由
   }
@@ -34,7 +34,7 @@ registerMicroApps([
 // 主应用与子应用通信 initGlobalState
 // const { onGlobalStateChange, setGlobalState, offGlobalStateChange } =
 //   initGlobalState({ name: 'world' });
-start();
+start({ sandbox: false });
 // setTimeout(() => {
 //     // 设置全局变量,会和其他地方设置的值合并
 //     setGlobalState({

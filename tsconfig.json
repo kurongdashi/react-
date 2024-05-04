@@ -1,21 +1,19 @@
 {
   "compilerOptions": {
-    "target": "ES5", //编译为es5
-    "module": "ESNext",
+    "target": "ES2015", //编译为es5
+    "module": "CommonJS",
     "strict": true,
     "esModuleInterop": true, //允许使用es6 导入导出
     "skipLibCheck": true, //跳过lib检查
     "forceConsistentCasingInFileNames": false, //是否强制检查文件名称
     "jsx": "react", //types 使用jsx
     "moduleResolution": "node",
-    // 声明文件所在目录 对应 src/types/types.d.ts d.ts是固定后缀
-    "baseUrl": "./",
-    "typeRoots": ["node_modules/@types", "src/types"],
-    "rootDir": "./src",
-    "types": ["node", "micor-js"],
+    "typeRoots": ["./src/types"],
+    // "types": ["node", "micor-js"],
     "paths": {
       "@/*": ["./src/*"] // 配置路径别名让ts支持 和webpack里同步
     }
   },
-  "include": ["src/**/*"]
+  "include": ["./src/**/*"],
+  "exclude": ["./src/micor-js"]
 }
