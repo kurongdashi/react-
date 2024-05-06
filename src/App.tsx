@@ -18,9 +18,15 @@ import 'dayjs/locale/zh-cn';
 import MyBoundary from './ErrorBoundary';
 dayjs.locale('zh-cn');
 
-console.log(123, 444);
 
-console.log('aaa');
+
+
+
+
+
+
+
+
 
 // const reduceMerge=combineReducers(reducer);
 // 使用applyMiddleware 中间件，可以支持action 返回一个方法

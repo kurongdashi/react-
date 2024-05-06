@@ -10,6 +10,11 @@
     "prettier": "prettier --write .",
     "staged": "lint-staged"
   },
+
+
+
+
+  
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix",
