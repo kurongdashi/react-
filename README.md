@@ -253,8 +253,8 @@ trim_trailing_whitespace = false # 关闭末尾空格修剪
 
 ## git提交规范
 
-- husky git commit 拦截保证代码必须格式化后才能提交
-- lint-stagee 提交前校验并使用prettier格式化缓存区代码 `npx husky add .husky/pre-commit "npx lint-staged"`
+- husky 拦截git 提交配置hooks
+- lint-stagee 检查修改过的代码；提交前校验并使用prettier格式化 `npx husky add .husky/pre-commit "npx lint-staged"`
 - @commitlint/cli 校验提交描述信息是否规范 `npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'`
 - @commitlint/config-conventional 标准配置，可以在自定义commitlint中继承此
 - commitizen 生成标准的提交描述信息
@@ -274,7 +274,7 @@ npx --no-install commitlint --edit "$1"
     }
   },
   "lint-staged": {
-    "*.{jsx,js,tsx,ts}": [
+    "*.{jsx,js,tsx,ts,css,less,json,md}": [
       "eslint --fix",
       "prettier --write"
     ]
