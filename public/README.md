@@ -1,8 +1,13 @@
 # 1、项目搭建顺序
+
 [参考搭建]（https://blog.csdn.net/qq_41581588/article/details/129177415）
+
 - 安装yarn `npm i yarn -g`
-## 安装基础依赖 
+
+## 安装基础依赖
+
 ### 安装打包工具 `yarn add webpack webpack-cli webpack-dev-server webpack-merge cross-env`
+
 - webpac 包含基础API
 - webpack-cli 可以提供命令行 再package.json 中使用 webpack --config 等命令
 - webpack-dev-server 可以启动一个热更新本地服务
@@ -29,15 +34,14 @@
 - typescript 提供语法支持
 - ts-loader 处理.ts、.tsx 文件
 - tsconfig.json ts配置项
-[tsconfig配置]（https://jkchao.github.io/typescript-book-chinese/project/compilationContext.html#基础）
-
+  [tsconfig配置]（https://jkchao.github.io/typescript-book-chinese/project/compilationContext.html#基础）
 
 - 安装JS处理 所需依赖 `yarn add @babel/core @babel/preset-env @babel/preset-typescript @babel/preset-react @babel/plugin-transform-runtime`
-babel-loader 识别
-@babel/preset-react react转js
-@babel/preset-typescript ts转js
-@babel/preset-env 搭配babel 使用 转化普通语法
-@babel/plugin-transform-runtime 将es6 高级语法转化
+  babel-loader 识别
+  @babel/preset-react react转js
+  @babel/preset-typescript ts转js
+  @babel/preset-env 搭配babel 使用 转化普通语法
+  @babel/plugin-transform-runtime 将es6 高级语法转化
 
 ```
 // .babelrc 文件配置项
@@ -53,9 +57,9 @@ babel-loader 识别
 ```
 
 - 安装eslint 实现代码校验及自动格式化代码 `yarn add --dev eslint eslint-plugin-react eslint-plugin-react-hooks eslint-config-prettier prettier`
-eslint-config-prettier prettier 格式化
-eslint eslint-plugin-react eslint-plugin-react-hooks 校验
-[eslint配置](http://eslint.cn/docs/rules/)
+  eslint-config-prettier prettier 格式化
+  eslint eslint-plugin-react eslint-plugin-react-hooks 校验
+  [eslint配置](http://eslint.cn/docs/rules/)
 
 ```
 vscode 配置 安裝prettier 插件
@@ -72,8 +76,8 @@ settings => editor default format => 选择 prettier
 
   "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
-项目下.repttierrc 优先级最高 
-// .repttierrc.js（json） 配置 
+项目下.repttierrc 优先级最高
+// .repttierrc.js（json） 配置
 {
   "printWidth": 100,	//每行最多显示的字符数
   "tabWidth": 2,//tab的宽度 2个字符
@@ -86,18 +90,20 @@ settings => editor default format => 选择 prettier
   "arrowParens": "always",//箭头函数参数始终添加括号
   "htmlWhitespaceSensitivity": "ignore",//html存在空格是不敏感的
   "vueIndentScriptAndStyle": false,//vue 的script和style的内容是否缩进
-  "endOfLine": "auto",//行结尾形式 mac和linux是\n  windows是\r\n 
+  "endOfLine": "auto",//行结尾形式 mac和linux是\n  windows是\r\n
   "singleAttributePerLine": false //组件或者标签的属性是否控制一行只显示一个属性
-  "jsxBracketSameLine": true, // 将JSX标签放在同一行（推荐）  
+  "jsxBracketSameLine": true, // 将JSX标签放在同一行（推荐）
 
 }
 
 ```
+
 [prettier如何配置](https://blog.csdn.net/qq_41887214/article/details/132391992)
+
 - 同时在vscode 中勾选 format on save
 
-
 - 安装 `yarn add portfinder --dev` 本地启动时如果端口被占用，则返回一个新端口
+
 ```
 portfinder.basePort = PORT;
 const port = await portfinder.getPortPromise();
@@ -107,6 +113,7 @@ devConfig.devServer.port = port;
 ## 项目使用
 
 - 使用BrowserRouter时本地需要配置
+
 ```
 output: {
         path: path.resolve(__dirname, '../dist'),
@@ -120,11 +127,13 @@ output: {
      }
 
 ```
+
 [BrowserRouter使用](https://blog.csdn.net/wuyujin1997/article/details/111937956)
 
 - types.d.ts 使用在项目中需要定义图片、less、等自定义模块，否则typescript会找不到类型
 
 在tsconfig.json 中如下配置
+
 ```
  // 声明文件所在目录 对应 src/types/types.d.ts d.ts是固定后缀
         "typeRoots": [
@@ -133,9 +142,9 @@ output: {
         ],
 ```
 
-
 - redux 的使用 `yarn add redux react-redux redux-thunk`
-- 创建store provider 
+- 创建store provider
+
 ```
 import { createStore } from 'redux';
 import reducer from '@/store/reducer'
@@ -150,6 +159,7 @@ root.render(<Provider store={store}>
 ```
 
 - 使用中间件，可在dispatch 之前做一些操作,`yarn add redux-thunk `
+
 ```
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 // 使用applyMiddleware 中间件，可以支持action 返回一个方法
@@ -172,10 +182,12 @@ export const asyncUpdate = () => {
     }
 }
 ```
+
 [redux使用](https://blog.csdn.net/m0_68324632/article/details/128819264)
 [redux中间件的理解](https://zhuanlan.zhihu.com/p/200775480)
 
 - 使用mockjs `yarn add mockjs @types/mockjs --dev`
+
 ```
 // src/mock/index.ts 在入口处引用此
 import Mock from 'mockjs';
@@ -191,17 +203,17 @@ Mock.mock('/api/getformData', {
 })
 
 ```
+
 [mockjs使用](https://blog.csdn.net/TKY666/article/details/126215513)
 
-
-
 ### 微前端实现方案 在主应用中，通过使用微前端框架（如single-spa、qiankun等）来加载和管理子应用。
+
 [微前端实现方案参考](https://www.jianshu.com/p/0ac8e1a666cf)
 [single-spa](https://zh-hans.single-spa.js.org/docs/getting-started-overview/)
 [qiankun](https://qiankun.umijs.org/zh/guide)
 
-
 ### 文档参考
+
 [react-route-dom](https://reactrouter.com/en/dev/upgrading/v5)
 [webpack](https://webpack.docschina.org/configuration/devtool/#root)
 [ts入门](http://ts.xcatliu.com/)

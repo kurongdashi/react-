@@ -5,17 +5,18 @@
   "main": "index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./scripts/webpack.dev.js",
-    "build": "cross-env NODE_ENV=production webpack --config ./scripts/webpack.prod.js"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "build": "cross-env NODE_ENV=production webpack --config ./scripts/webpack.prod.js",
+    "eslint": "eslint --fix --ext .js,jsx,ts,tsx src/",
+    "prettier": "prettier --write .",
+    "staged": "lint-staged"
   },
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": [
+    "*.{js,jsx,ts,tsx}": [
       "eslint --fix",
-      "prettier --w"
+      "prettier --write"
+    ],
+    "*.{css,less,md}": [
+      "prettier --write"
     ]
   },
   "repository": {

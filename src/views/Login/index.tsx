@@ -40,13 +40,15 @@ const Index = () => {
         <Form.Item
           label="账号"
           name="account"
-          rules={[{ required: true, message: '请输入账号' }]}>
+          rules={[{ required: true, message: '请输入账号' }]}
+        >
           <Input />
         </Form.Item>
         <Form.Item
           label="密码"
           name="password"
-          rules={[{ required: true, message: '请输入密码' }]}>
+          rules={[{ required: true, message: '请输入密码' }]}
+        >
           <Input />
         </Form.Item>
         <Form.Item>

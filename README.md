@@ -253,8 +253,30 @@ trim_trailing_whitespace = false # 关闭末尾空格修剪
 
 ## git提交规范
 
-- husky 拦截git 提交配置hooks
-- lint-stagee 检查修改过的代码；提交前校验并使用prettier格式化 `npx husky add .husky/pre-commit "npx lint-staged"`
+### eslint 命令行配置**所有命令结尾必须指定目录,或者文件路径**
+
+```
+当使用eslint.config.js 等配置文件时，结尾可使用.代表全部文件
+--fix dir/xx.js 修复
+--ext xxx 指定扩展名默认只检查.js文件，一般需要指定
+--config 指定eslint配置文件
+--ignore-path 指定忽略文件配置
+--cache 缓存被检查过的文件，方便下次仅检查更改的文件提高效率
+--format json 指定控制台输出错误格式(不常用)
+
+```
+
+### prettier 命令行配置**所有命令结尾必须指定目录,或者文件路径**
+
+```
+.代表全部文件
+--write xx 修复
+--check xx 检查不修复,会在控制台打印检查结果
+```
+
+### husky 拦截git 提交配置hooks
+
+- lint-stagee 检查git add 过的代码；提交前校验并使用prettier格式化 `npx husky add .husky/pre-commit "npx lint-staged"`
 - @commitlint/cli 校验提交描述信息是否规范 `npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'`
 - @commitlint/config-conventional 标准配置，可以在自定义commitlint中继承此
 - commitizen 生成标准的提交描述信息
@@ -266,12 +288,15 @@ trim_trailing_whitespace = false # 关闭末尾空格修剪
 npx lint-staged
 // 创建.husky/commit-msg 文件并添加命令
 npx --no-install commitlint --edit "$1"
-// 方式2，直接在package.json中配置
+//--- pacakage.json 此配置husky已废弃只能使用配置文件去配置
 {
- "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-    }
+
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./scripts/webpack.dev.js",
+    "build": "cross-env NODE_ENV=production webpack --config ./scripts/webpack.prod.js",
+    "eslint":"eslint --fix --ext .js,jsx,ts,tsx src/",//指定扩展名，不然只检查.js，指定目录缩小检查范围
+    "prettier":"prettier --check .",
+    "lint-staged":"lint-staged"
   },
   "lint-staged": {
     "*.{jsx,js,tsx,ts,css,less,json,md}": [

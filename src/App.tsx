@@ -18,6 +18,10 @@ import 'dayjs/locale/zh-cn';
 import MyBoundary from './ErrorBoundary';
 dayjs.locale('zh-cn');
 
+console.log(123, 444);
+
+console.log('aaa');
+
 // const reduceMerge=combineReducers(reducer);
 // 使用applyMiddleware 中间件，可以支持action 返回一个方法
 const store = createStore(reducer, applyMiddleware(thunk));
@@ -30,7 +34,8 @@ const App = () => {
     // antd 配置
     <ConfigProvider
       theme={{ token: { colorPrimary: '#1890ff' } }}
-      locale={zhCN}>
+      locale={zhCN}
+    >
       {/* redux store */}
       <Provider store={store}>
         <MyContext.Provider value={Info}>

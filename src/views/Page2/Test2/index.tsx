@@ -93,7 +93,7 @@ const Index: React.FC = () => {
         >
           加密
         </Button>
-        <TextArea onChange={e => setContent(e.target.value)} cols={3} />
+        <TextArea onChange={(e) => setContent(e.target.value)} cols={3} />
         <div>加密后的内容：{bytes}</div>
       </div>
       <Button
@@ -115,7 +115,7 @@ const Index: React.FC = () => {
         >
           加密
         </Button>
-        <TextArea onChange={e => setContent(e.target.value)} cols={3} />
+        <TextArea onChange={(e) => setContent(e.target.value)} cols={3} />
         <div>加密后的内容：{bytesRSA}</div>
       </div>
       <Button

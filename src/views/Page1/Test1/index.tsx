@@ -1,26 +1,26 @@
-import React, { useEffect, useState, useContext } from "react";
-import MyContext from "@/Context";
-import { addAge, subAge } from "@/store/disptch";
-import { connect } from "react-redux";
-import styles from "./index.less";
-import { DatePicker, FloatButton } from "antd";
-import { CustomerServiceOutlined } from "@ant-design/icons";
+import React, { useEffect, useState, useContext } from 'react';
+import MyContext from '@/Context';
+import { addAge, subAge } from '@/store/disptch';
+import { connect } from 'react-redux';
+import styles from './index.less';
+import { DatePicker, FloatButton } from 'antd';
+import { CustomerServiceOutlined } from '@ant-design/icons';
 const Index: React.FC = (props: any) => {
-  const [page, setPage] = useState("");
-  console.log("age=", props?.age);
+  const [page, setPage] = useState('');
+  console.log('age=', props?.age);
   useEffect(() => {
-    setPage("hello");
+    setPage('hello');
   }, []);
   const ageR = Math.random() * 100;
   const onChange = (val) => {
-    console.log("日期=", val?.format("YYYY-MM-DD HH:mm:ss"));
+    console.log('日期=', val?.format('YYYY-MM-DD HH:mm:ss'));
   };
   const context = useContext(MyContext);
-  console.log("test1 context=", context);
+  console.log('test1 context=', context);
   return (
     <div>
       测试页面1--{page} <DatePicker onChange={onChange} />
-      <div className={styles["btns"]}>
+      <div className={styles['btns']}>
         <button onClick={() => props.addAge(1)}>年龄+1</button>
         <button onClick={() => props.addAge(Math.ceil(ageR))}>
           年龄加1~100随机数
@@ -29,11 +29,11 @@ const Index: React.FC = (props: any) => {
       </div>
       <div>context内容：</div>
       <FloatButton
-        onClick={() => console.log("点击悬浮按钮")}
+        onClick={() => console.log('点击悬浮按钮')}
         shape="circle"
         icon={<CustomerServiceOutlined />}
       ></FloatButton>
-      <div className={styles["bgm"]}></div>
+      <div className={styles['bgm']}></div>
     </div>
   );
 };
@@ -45,7 +45,7 @@ const mapDispatchToProps = (disptch: any) => {
     },
     subAge(num: any) {
       return disptch(subAge(num));
-    },
+    }
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Index);

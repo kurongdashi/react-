@@ -1,11 +1,11 @@
-import React, { Suspense } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import routerConfig from "./router/index";
-import NotFound from "./views/NotFound";
-import Login from "@/views/Login";
-import NoAuth from "@/views/NoAuth";
-import { Spin } from "antd";
-import PrivateRoute from "@/components/PrivateRoute";
+import React, { Suspense } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import routerConfig from './router/index';
+import NotFound from './views/NotFound';
+import Login from '@/views/Login';
+import NoAuth from '@/views/NoAuth';
+import { Spin } from 'antd';
+import PrivateRoute from '@/components/PrivateRoute';
 
 // 处理路由 层
 const Index: React.FC<any> = (props) => {
