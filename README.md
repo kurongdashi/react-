@@ -276,7 +276,15 @@ trim_trailing_whitespace = false # 关闭末尾空格修剪
 
 ### husky 拦截git 提交配置hooks
 
-- lint-stagee 检查git add 过的代码；提交前校验并使用prettier格式化 `npx husky add .husky/pre-commit "npx lint-staged"`
+```
+npx husky install 创建.husky 目录
+npx husky add .husky/pre-commit "npx lint-staged" 添加执行命令
+
+执行完上面的命令会自动在.git/config 文件中添加如下配置，才可以在提交时回调hook
+hooksPath = .husky
+```
+
+- lint-stagee 检查git add 过的代码；提交前校验并使用prettier格式化
 - @commitlint/cli 校验提交描述信息是否规范 `npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'`
 - @commitlint/config-conventional 标准配置，可以在自定义commitlint中继承此
 - commitizen 生成标准的提交描述信息

@@ -1,28 +1,9 @@
-console.log(1)
-
-
-
-
-
-
-
-
-
-
-
-
-
+console.log(1);
 
 function test(a, b) {
-    return a + b
+  return a + b;
 }
-console.log(1)
+test(1, 2);
+console.log(1);
 
-
-
-
-
-
-
-
-console.log(2)
+console.log(2);
