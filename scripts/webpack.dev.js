@@ -1,4 +1,3 @@
-const path = require('path');
 const { merge } = require('webpack-merge');
 const portfinder = require('portfinder');
 const baseConfig = require('./webpack.base');
@@ -21,11 +20,16 @@ const devConfig = {
     // 本地BrowserRouter 配置将请求路径转发的 index.html
     historyApiFallback: true,
     proxy: {
+      // 例如访问 https://www.baidu.com/gateway/getInfo 接口会跨域，那么走本地服务器代理，服务器之间通信没有同源政策限制
+      // 匹配到一个包括url包含/api，自动拦截
       '/api': {
+        // 本地serve服务器转发到目标服务器地址
         target: 'https://www.baidu.com',
+        // 是否要重新url,当然因为我们的真实目标地址是/gateway
         pathRewrite: {
           '^/api': ''
         },
+        // 是否要修改请求头里面的origin，因为很多服务器限制只能某些origin能访问
         changeOrigin: true
       }
     }

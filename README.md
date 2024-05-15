@@ -349,23 +349,54 @@ npx --no-install commitlint --edit "$1"
 
 ## 项目使用
 
-### webpack 模块联邦实现
+### qiankun + 模块联邦
 
+- qiankun 会加载带有entry 标记的script标签内容，或者加载最后一个script [使用问题](https://qiankun.umijs.org/zh/faq)
 - 所有子应用都可以暴露出需要共享的组件，也可以引用其他应用暴露的组件（去中心化）
 - 对比qiankun的基于中心化方式，更加有利用协同开发共享组件，qiankun更适合加载子项目，而非组件
 
 ```js
-// 基于ModuleFederationPlugin 实现
+// 主应用，必须关闭沙箱，在子应用使用模块联邦并且开启shared共享模块时
+start({ sandbox: false });
+// 子应用-bootstrap.js
+import './public-path';
+import './public-path';
+import('./index');
+export const bootstrap = () => promise.then(m => m.bootstrap());
+export const mount = () => promise.then(m => m.mount());
+export const unmount = () => promise.then(m => m.unmount());
+
+// 子应用-webpack配置
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 module.exports={
-  entry:'./src/index.tsx',
-  // entry:'./src/entry.js',// 如开启shard共享公共组件库则必须使用
+  // entry:'./src/index.tsx',// 不开启shared 可直接使用原来的入口文件
+  // entry:'./src/bootstrap.js',// 如开启shard共享公共组件库则必须使用 bootstrap.js 做入口
   output:{
     // publicPath:'/',//publicPath 如果配置 会和模块联邦有冲突，导致子应用无法正常加载共享组件，加载地址会被替换为自己localhost
     publicPath:'auto',//模块联邦推荐publicPath 使用auto
-  }
-  ...
+     // qiankun子应用配置
+    library: `${name}-[name]`,
+    libraryTarget: 'umd',
+    chunkLoadingGlobal: `webpackJsonp_${name}`
+  },
+  // 子应用-本地必须开启跨域，让主应用能加载其资源
+  devServer:{
+    headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+  },
   plugins:[
+    // qiankun需要加载带有entry标记的script标签内容，或者加载最后一个script
+     new htmlWebpackPlugin({
+      title: 'app2应用',
+      template: path.resolve(__dirname, '../public/index.html'),
+      // 方式1：只加载main chunk,不加载remoteEntry.js
+      chunks: ['main'],
+      // 方式2：加载其他chunk 不过要排序
+      chunks:['app2','main'],
+      // manual 手动排序
+      chunksSortMode:'manual',
+    }),
     new ModuleFederationPlugin({
       name: 'app1',//应用名称
       filename: 'remoteEntry.js',//输出组件的的入口文件名称
@@ -382,38 +413,10 @@ module.exports={
     })
   ]
 }
-// entry.js 通过读取index.tsx入口,返回promise 来实现shard 组件共享
-import('./index')
-
-// App.tsx 使用远程组件，必须import('app1Module/MyButton') 异步加载组件
-
+// 子应用-使用共享组件
 const MyButton = React.lazy(() => import('app1Module/MyButton'));
 // 或者
 const  MyButton = await import('app1Module/MyButton');
-
-
-```
-
-### qiankun + 模块联邦
-
-- qiankun 会加载带有entry 标记的script标签内容，或者加载最后一个script [使用问题](https://qiankun.umijs.org/zh/faq)
-
-```js
-// 子应用APP2 使用模块联邦会默认将remoteEntry.js在放在最后script加载
- <script defer src="js/main5c5083.js"></script><script defer src="remoteEntry.js"></script></head>
-
-// 需要 会加载带有entry 标记的script标签内容，或者加载最后一个script
-  new htmlWebpackPlugin({
-      title: 'app2应用',
-      template: path.resolve(__dirname, '../public/index.html'),
-      chunks: ['main'],//手动调整script 加载顺序
-    }),
-// entry.js 入口需要修改
-import('./index');
-export const bootstrap = () => promise.then(m => m.bootstrap());
-export const mount = () => promise.then(m => m.mount());
-export const unmount = () => promise.then(m => m.unmount());
-
 
 ```
 

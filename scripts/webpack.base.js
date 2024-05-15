@@ -12,7 +12,6 @@ const threads = os.cpus.length;
 module.exports = {
   entry: './src/App.tsx',
   output: {
-    // path: path.resolve(__dirname, '../dist'),
     filename: 'js/[name].[contenthash:6].js',
     // 懒加载对应的页面 chunk.js（懒加载的子路由页面） 名称
     chunkFilename: 'js/[name].[contenthash:6].chunk.js',

@@ -1,9 +1,9 @@
-import React, { Suspense, useContext } from 'react';
+import React from 'react';
 import MyContext from './Context';
 import { createRoot } from 'react-dom/client';
 import Entry from './Entry';
 import './App.less';
-import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import reducer from '@/store/reducer';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -18,16 +18,6 @@ import 'dayjs/locale/zh-cn';
 import MyBoundary from './ErrorBoundary';
 dayjs.locale('zh-cn');
 
-
-
-
-
-
-
-
-
-
-
 // const reduceMerge=combineReducers(reducer);
 // 使用applyMiddleware 中间件，可以支持action 返回一个方法
 const store = createStore(reducer, applyMiddleware(thunk));
@@ -35,13 +25,12 @@ const store = createStore(reducer, applyMiddleware(thunk));
 const root = createRoot(document.getElementById('root') as any);
 const Info = {};
 const App = () => {
-  const context = useContext(MyContext);
+  // const context = useContext(MyContext);
   return (
     // antd 配置
     <ConfigProvider
       theme={{ token: { colorPrimary: '#1890ff' } }}
-      locale={zhCN}
-    >
+      locale={zhCN}>
       {/* redux store */}
       <Provider store={store}>
         <MyContext.Provider value={Info}>
